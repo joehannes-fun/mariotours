@@ -7,16 +7,16 @@ const Contact = () => {
   const { brandSettings } = useBrand();
 
   return (
-    <div className="bg-gradient-to-b from-cyan-50/60 via-white to-fuchsia-50/40 py-20">
+    <div className="py-16">
       <div className="section-shell">
         <div className="mb-10 text-center">
-          <h1 className="mb-4 text-5xl font-bold text-slate-900 md:text-6xl"><FormattedMessage id="contact.title" /></h1>
+          <h1 className="mb-4 text-5xl font-bold text-slate-900"><FormattedMessage id="contact.title" /></h1>
           <p className="mx-auto max-w-2xl text-lg text-slate-600"><FormattedMessage id="contact.description" /></p>
         </div>
 
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-2">
           <ContactForm />
-          <div className="glass-card rounded-[2rem] border border-white/40 p-8 shadow-xl">
+          <div className="glass-card rounded-3xl p-8">
             <h2 className="mb-5 text-3xl font-bold text-slate-900"><FormattedMessage id="contact.getInTouch" /></h2>
             <p className="mb-2 text-slate-700"><FormattedMessage id="contact.addressLabel" />: Bávaro, Punta Cana</p>
             <p className="mb-6 text-slate-700"><FormattedMessage id="contact.phoneLabel" />: {brandSettings.phoneNumber}</p>

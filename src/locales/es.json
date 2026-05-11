@@ -7,7 +7,7 @@
   },
   "hero": {
     "title": "Descubre {brand}",
-    "subtitle": "Excursiones boutique diseñadas para días inolvidables en Bávaro.",
+    "subtitle": "Excursiones cálidas y sencillas para días hermosos en Bávaro, Punta Cana y la costa dominicana.",
     "cta": "Ver Excursiones"
   },
   "features": {
@@ -17,8 +17,8 @@
       "description": "Guías experimentados, operadores certificados y logística segura en cada ruta."
     },
     "experiences": {
-      "title": "Experiencias Curadas",
-      "description": "Actividades seleccionadas con equilibrio entre comodidad, cultura y aventura."
+      "title": "Días Bien Planificados",
+      "description": "Actividades seleccionadas con equilibrio entre comodidad, cultura, naturaleza y aventura tranquila."
     },
     "transportation": {
       "title": "Transporte Sin Estrés",
@@ -44,7 +44,23 @@
     "subtitle": "Desde la brisa del mar hasta paisajes del interior, cada tour es memorable."
   },
   "testimonials": {
-    "title": "Opiniones de nuestros viajeros"
+    "title": "Opiniones de nuestros viajeros",
+    "addTestimonial": "Comparte Tu Historia",
+    "yourName": "Tu Nombre",
+    "yourReview": "¿Cuál fue tu aventura favorita?",
+    "submitReview": "Compartir Tu Opinión",
+    "loginWithGoogle": "Inicia sesión con Google",
+    "noTestimonials": "¡Sé el primero en compartir tu aventura!"
+  },
+  "story": {
+    "readMore": "Leer Historia Completa",
+    "learnMore": "Aprende Más",
+    "bookNow": "Reserva Esta Aventura",
+    "contactUs": "Contáctanos",
+    "duration": "Duración",
+    "vibes": "Vibra",
+    "bestFor": "Perfecto para",
+    "highlights": "Destacados"
   },
   "contact": {
     "title": "Contáctanos",
@@ -62,7 +78,7 @@
   },
   "footer": {
     "company": "{brand}",
-    "description": "Tu puerta de entrada a experiencias tropicales inolvidables en República Dominicana.",
+    "description": "Tu puerta cercana a playas, islas, cascadas y días tropicales sin complicaciones en República Dominicana.",
     "quickLinks": "Enlaces Rápidos",
     "home": "Inicio",
     "tours": "Tours",

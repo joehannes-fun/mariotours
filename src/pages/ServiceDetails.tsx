@@ -43,17 +43,17 @@ const ServiceDetails: React.FC = () => {
   const currentImage = images[activeIndex] ?? service.image;
 
   return (
-    <div className="bg-gradient-to-b from-[#ecf8ff] via-white to-[#fff3ea] py-20">
+    <div className="bg-gradient-to-b from-cyan-50 via-white to-amber-50 py-16">
       <div className="section-shell space-y-8">
         <div className="flex items-center justify-between gap-4">
-          <Link to={category === 'transport' ? '/transport' : '/tours'} className="inline-flex rounded-full border border-cyan-200 bg-white/80 px-4 py-2 text-sm font-semibold text-cyan-800 transition hover:bg-cyan-50 hover:text-cyan-950">
+          <Link to={category === 'transport' ? '/transport' : '/tours'} className="text-sm font-semibold text-teal-700 hover:text-teal-900">
             <FormattedMessage id="details.back" defaultMessage="← Back to listings" />
           </Link>
         </div>
 
-        <article className="glass-card overflow-hidden rounded-[2rem] border border-white/40 shadow-2xl">
+        <article className="glass-card overflow-hidden rounded-[2rem]">
           <div className="relative bg-slate-950">
-            <img src={currentImage} alt={service.title} className="h-[420px] w-full object-cover saturate-110" />
+            <img src={currentImage} alt={service.title} className="h-[420px] w-full object-cover" />
             <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent p-8 text-white">
               <h1 className="text-4xl font-bold md:text-5xl">{service.title}</h1>
               <p className="mt-3 max-w-3xl text-white/80">{service.description}</p>
@@ -65,7 +65,7 @@ const ServiceDetails: React.FC = () => {
               <button
                 key={`${image}-${index}`}
                 onClick={() => setActiveIndex(index)}
-                className={`overflow-hidden rounded-[1.2rem] border-2 transition ${index === activeIndex ? 'border-cyan-500 shadow-md' : 'border-transparent'}`}
+                className={`overflow-hidden rounded-2xl border-2 transition ${index === activeIndex ? 'border-teal-500' : 'border-transparent'}`}
                 aria-label={`Show image ${index + 1}`}
               >
                 <img src={image} alt={`${service.title} ${index + 1}`} className="h-24 w-full object-cover" />
@@ -80,7 +80,7 @@ const ServiceDetails: React.FC = () => {
               </h2>
               <div className="flex flex-wrap gap-3">
                 {service.pricingOptions.map((option) => (
-                  <span key={option.tier} className="rounded-full border border-cyan-100 bg-white px-4 py-2 text-sm font-semibold text-slate-800 shadow-sm">
+                  <span key={option.tier} className="rounded-full bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-800">
                     {option.tier}: {option.price}
                   </span>
                 ))}

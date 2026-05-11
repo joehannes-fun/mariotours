@@ -7,26 +7,26 @@ const Features = () => {
     <section className="py-20">
       <div className="section-shell">
         <div className="mb-14 text-center">
-          <h2 className="text-5xl font-bold text-slate-900 md:text-6xl">
+          <h2 className="text-5xl font-bold text-slate-900">
             <FormattedMessage id="features.title" />
           </h2>
         </div>
         <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
           {[{
-            icon: <MdSecurityUpdateGood className="h-10 w-10 text-cyan-700" />,
+            icon: <MdSecurityUpdateGood className="h-10 w-10 text-teal-700" />,
             title: 'features.safety.title',
             text: 'features.safety.description',
           }, {
-            icon: <MdElectricBolt className="h-10 w-10 text-fuchsia-600" />,
+            icon: <MdElectricBolt className="h-10 w-10 text-blue-700" />,
             title: 'features.experiences.title',
             text: 'features.experiences.description',
           }, {
-            icon: <MdDirectionsBus className="h-10 w-10 text-orange-500" />,
+            icon: <MdDirectionsBus className="h-10 w-10 text-amber-600" />,
             title: 'features.transportation.title',
             text: 'features.transportation.description',
           }].map((item) => (
-            <article key={item.title} className="glass-card rounded-[2rem] border border-white/40 p-8 text-center shadow-xl">
-              <div className="mx-auto mb-5 grid h-20 w-20 place-items-center rounded-[26px] bg-gradient-to-br from-white to-cyan-50 shadow-lg">{item.icon}</div>
+            <article key={item.title} className="glass-card rounded-3xl p-8 text-center">
+              <div className="mx-auto mb-5 grid h-20 w-20 place-items-center rounded-full bg-white shadow">{item.icon}</div>
               <h3 className="mb-3 text-2xl font-bold text-slate-900">
                 <FormattedMessage id={item.title} />
               </h3>

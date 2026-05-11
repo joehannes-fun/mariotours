@@ -8,6 +8,7 @@ export default defineConfig({
   plugins: [react()],
   server: {
     open: true,
+    allowedHosts: ['skies-stalemate-handclasp.ngrok-free.dev'],
   },
   build: {
     outDir: 'dist',

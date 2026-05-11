@@ -79,8 +79,8 @@ const TourCard: React.FC<TourCardProps> = ({
 
   const formattedSelectedDate = selectedDate
     ? new Intl.DateTimeFormat(intl.locale === 'es' ? 'es-DO' : 'en-US', {
-        dateStyle: 'full',
-      }).format(new Date(`${selectedDate}T00:00:00`))
+      dateStyle: 'full',
+    }).format(new Date(`${selectedDate}T00:00:00`))
     : '';
 
   const handleQuantityChange = (tier: string, nextValue: string) => {
@@ -89,51 +89,16 @@ const TourCard: React.FC<TourCardProps> = ({
   };
 
   const handleBookNow = () => {
-    let message = intl.formatMessage(
-      {
-        id: intl.locale === 'es' ? 'whatsapp.spanish' : 'whatsapp.english',
-      },
-      { tour: excursionName, date: '' }
-    );
-
-    if (selectedQuantitySummary) {
-      message += `\n${intl.formatMessage(
-        { id: 'whatsapp.quantities', defaultMessage: 'Guests: {summary}' },
-        { summary: selectedQuantitySummary }
-      )}`;
-    }
-
-    if (formattedSelectedDate) {
-      message += `\n${intl.formatMessage(
-        {
-          id: intl.locale === 'es' ? 'whatsapp.selectedDateSpanish' : 'whatsapp.selectedDateEnglish',
-        },
-        { date: formattedSelectedDate }
-      )}`;
-    }
-
-    message += `\n\n${intl.formatMessage(
-      {
-        id: intl.locale === 'en' ? 'whatsapp.spanish' : 'whatsapp.english',
-      },
-      { tour: excursionName, date: '' }
-    )}`;
-
-    if (selectedQuantitySummary) {
-      message += `\n${intl.formatMessage(
-        { id: 'whatsapp.quantitiesSpanish', defaultMessage: 'Participantes: {summary}' },
-        { summary: selectedQuantitySummary }
-      )}`;
-    }
-
-    if (formattedSelectedDate) {
-      message += `\n${intl.formatMessage(
-        {
-          id: intl.locale === 'en' ? 'whatsapp.selectedDateSpanish' : 'whatsapp.selectedDateEnglish',
-        },
-        { date: formattedSelectedDate }
-      )}`;
-    }
+    let message = '';
+    message += `Hello, I want to book ${excursionName}\n`;
+    message += `Participants: ${selectedQuantitySummary || 'N/A'}\n`;
+    message += `Preferred date: ${formattedSelectedDate || 'Not specified'}\n`;
+    message += `Price: ${totalAmount > 0 ? totalAmount : price} USD`;
+    message += `\n`;
+    message += `Hola, deseo reservar el ${excursionName}\n`;
+    message += `Participantes: ${selectedQuantitySummary || 'N/A'}\n`;
+    message += `Fecha preferida: ${formattedSelectedDate || 'No especificada'}\n`;
+    message += `Precio: ${totalAmount > 0 ? totalAmount : price} USD`;
 
     const whatsappUrl = generateWhatsAppMessage(brandSettings.phoneNumber, message);
 
@@ -143,18 +108,18 @@ const TourCard: React.FC<TourCardProps> = ({
   };
 
   return (
-    <article className="glass-card flex h-full flex-col justify-between overflow-hidden rounded-[2rem] border border-white/40 shadow-xl transition duration-300 hover:-translate-y-2 hover:shadow-2xl">
+    <article className="flex-col justify-between h-full glass-card overflow-hidden rounded-3xl transition duration-300 hover:-translate-y-2">
       <div className="relative">
         <Link to={detailsPath} className="block overflow-hidden" aria-label={title}>
-          <img src={image} alt={title} className="h-56 w-full object-cover saturate-110 transition duration-500 hover:scale-105" />
+          <img src={image} alt={title} className="h-56 w-full object-cover transition duration-500 hover:scale-105" />
         </Link>
       </div>
 
-      <div className="space-y-5 p-6 md:p-7">
+      <div className="space-y-5 p-6">
         <div className="flex items-start justify-between gap-3">
-          <h3 className="text-2xl font-bold text-slate-900 leading-snug">{title}</h3>
+          <h3 className="text-2xl font-bold text-slate-900">{title}</h3>
           {showDetailsLink && (
-            <Link to={detailsPath} className="rounded-full bg-cyan-50 px-3 py-1 text-sm font-semibold text-cyan-800 transition hover:bg-cyan-100 hover:text-cyan-950">
+            <Link to={detailsPath} className="text-sm font-semibold text-teal-700 hover:text-teal-900">
               <FormattedMessage id="details.view" defaultMessage="View details" />
             </Link>
           )}
@@ -166,7 +131,7 @@ const TourCard: React.FC<TourCardProps> = ({
             {resolvedPricingOptions.map((option) => (
               <span
                 key={`${title}-${option.tier}`}
-                className="rounded-full border border-cyan-100 bg-white px-3 py-1 text-sm font-semibold text-slate-700 shadow-sm"
+                className="rounded-full bg-slate-100 px-3 py-1 text-sm font-semibold text-slate-700"
               >
                 {option.tier}: {option.price}
               </span>
@@ -178,32 +143,32 @@ const TourCard: React.FC<TourCardProps> = ({
           <>
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               {resolvedPricingOptions.map((option) => (
-                <label key={option.tier} className="space-y-2 rounded-[1.25rem] border border-cyan-100 bg-white/85 p-3 shadow-sm">
+                <label key={option.tier} className="space-y-2 rounded-2xl border border-slate-200 bg-slate-50 p-3">
                   <span className="block text-sm font-semibold text-slate-700">{option.tier}</span>
                   <input
                     type="number"
                     min="0"
                     value={quantities[option.tier] ?? 0}
                     onChange={(event) => handleQuantityChange(option.tier, event.target.value)}
-                    className="w-full border border-slate-200 bg-white px-3 py-2 text-slate-700 outline-none focus:border-cyan-500"
+                    className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-slate-700 outline-none focus:border-teal-500"
                   />
                 </label>
               ))}
             </div>
 
             <label className="block space-y-2 text-left">
-              <span className="text-sm font-semibold text-slate-700">
+              <span className="text-sm font-medium text-slate-700">
                 <FormattedMessage id="tours.dateLabel" defaultMessage="Select your preferred date" />
               </span>
               <input
                 type="date"
                 value={selectedDate}
                 onChange={(event) => setSelectedDate(event.target.value)}
-                className="w-full border border-slate-200 bg-white px-4 py-3 text-slate-700 shadow-sm outline-none transition focus:border-cyan-500 focus:ring-2 focus:ring-cyan-200"
+                className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-700 shadow-sm outline-none transition focus:border-teal-500 focus:ring-2 focus:ring-teal-200"
               />
             </label>
 
-            <div className="rounded-[1.2rem] border border-cyan-200 bg-gradient-to-r from-cyan-50 to-orange-50 px-4 py-3 text-sm font-bold text-cyan-900">
+            <div className="rounded-2xl bg-teal-50 px-4 py-3 text-sm font-semibold text-teal-900">
               <FormattedMessage id="payment.total" defaultMessage="Payment total" />: {totalAmount > 0 ? `$${totalAmount}` : price}
             </div>
 

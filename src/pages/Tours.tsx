@@ -27,12 +27,12 @@ const Tours: React.FC = () => {
   }
 
   return (
-    <div className="bg-gradient-to-b from-cyan-50/60 via-white to-orange-50/60 py-20">
+    <div className="py-16">
       <div className="section-shell">
-        <h1 className="mb-3 text-center text-5xl font-bold text-slate-900 md:text-6xl">
+        <h1 className="mb-3 text-center text-5xl font-bold text-slate-900">
           <FormattedMessage id="tours.title" />
         </h1>
-        <p className="mx-auto mb-12 max-w-2xl rounded-[1.5rem] border border-white/70 bg-white/70 px-6 py-4 text-center text-slate-600 shadow-sm">
+        <p className="mx-auto mb-12 max-w-2xl text-center text-slate-600">
           <FormattedMessage id="tours.dynamicSubtitle" values={{ brand: brandSettings.brandName }} />
         </p>
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">

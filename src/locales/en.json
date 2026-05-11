@@ -7,7 +7,7 @@
   },
   "hero": {
     "title": "Discover {brand}",
-    "subtitle": "Boutique excursions crafted for unforgettable days in Bavaro.",
+    "subtitle": "Warm, effortless excursions for beautiful days across Bavaro, Punta Cana, and the Dominican coast.",
     "cta": "View Excursions"
   },
   "features": {
@@ -17,8 +17,8 @@
       "description": "Experienced guides, certified operators, and secure logistics on every route."
     },
     "experiences": {
-      "title": "Curated Experiences",
-      "description": "Handpicked activities with the right balance of comfort, culture, and adventure."
+      "title": "Beautifully Planned Days",
+      "description": "Handpicked activities with the right balance of comfort, culture, nature, and easygoing adventure."
     },
     "transportation": {
       "title": "Smooth Transportation",
@@ -44,7 +44,23 @@
     "subtitle": "From ocean breeze to inland landscapes, each tour is built to be memorable."
   },
   "testimonials": {
-    "title": "Guest Reviews"
+    "title": "Guest Reviews",
+    "addTestimonial": "Share Your Story",
+    "yourName": "Your Name",
+    "yourReview": "What was your favorite adventure?",
+    "submitReview": "Share Your Review",
+    "loginWithGoogle": "Sign in with Google",
+    "noTestimonials": "Be the first to share your adventure!"
+  },
+  "story": {
+    "readMore": "Read Full Story",
+    "learnMore": "Learn More",
+    "bookNow": "Book This Adventure",
+    "contactUs": "Contact Us",
+    "duration": "Duration",
+    "vibes": "Vibes",
+    "bestFor": "Best for",
+    "highlights": "Highlights"
   },
   "contact": {
     "title": "Contact Us",
@@ -62,7 +78,7 @@
   },
   "footer": {
     "company": "{brand}",
-    "description": "Your gateway to unforgettable tropical experiences in the Dominican Republic.",
+    "description": "Your friendly gateway to beaches, islands, waterfalls, and smooth tropical days in the Dominican Republic.",
     "quickLinks": "Quick Links",
     "home": "Home",
     "tours": "Tours",

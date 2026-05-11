@@ -25,12 +25,12 @@ const Transport: React.FC = () => {
   }
 
   return (
-    <div className="bg-gradient-to-b from-orange-50/60 via-white to-cyan-50/60 py-20">
+    <div className="py-16">
       <div className="section-shell">
-        <h1 className="mb-3 text-center text-5xl font-bold text-slate-900 md:text-6xl">
+        <h1 className="mb-3 text-center text-5xl font-bold text-slate-900">
           <FormattedMessage id="transport.title" defaultMessage="Airport Shuttle & Taxi" />
         </h1>
-        <p className="mx-auto mb-12 max-w-2xl rounded-[1.5rem] border border-white/70 bg-white/70 px-6 py-4 text-center text-slate-600 shadow-sm">
+        <p className="mx-auto mb-12 max-w-2xl text-center text-slate-600">
           <FormattedMessage
             id="transport.subtitle"
             defaultMessage="Private airport transfers and local rides for smooth arrivals and departures."

@@ -11,37 +11,41 @@ const Header: React.FC = () => {
   const { brandSettings } = useBrand();
 
   return (
-    <header className="sticky top-0 z-50 border-b border-white/40 bg-white/70 shadow-[0_8px_24px_rgba(31,23,54,0.08)] backdrop-blur-2xl">
-      <div className="section-shell flex items-center justify-between py-3">
+    <header className="sticky top-0 z-50 border-b border-white/30 bg-white/60 shadow-[0_8px_32px_rgba(8,42,62,.15)] backdrop-blur-xl">
+      <div className="section-shell flex items-center justify-between py-4">
         <Link to="/#top" className="group flex items-center gap-3">
-          <div className="grid h-11 w-11 place-items-center rounded-[16px] bg-gradient-to-br from-orange-300 via-rose-300 to-cyan-500 text-lg shadow-lg">
-            🏝️
+          <div className="grid h-14 w-14 place-items-center rounded-full bg-gradient-to-br from-white/80 to-cyan-50/60 shadow-[0_8px_24px_rgba(23,182,168,.12)] ring-1 ring-white/40 backdrop-blur-md">
+            <img src="/competitor-logo.svg" alt="Logo" className="h-12 w-12" />
           </div>
-          <h1 className="hidden text-2xl font-bold text-slate-900 transition group-hover:text-cyan-700 sm:block">
+          <h1 className="hidden text-2xl font-bold text-slate-900 transition group-hover:text-teal-700 sm:block">
             {brandSettings.brandName}
           </h1>
         </Link>
 
-        <button className="text-slate-700 md:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+        <button
+          className="grid h-11 w-11 place-items-center rounded-full bg-white/60 text-slate-800 ring-1 ring-white/50 backdrop-blur-md hover:bg-white/80 transition md:hidden"
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          aria-label="Toggle navigation"
+        >
           {isMenuOpen ? <HiX className="h-8 w-8" /> : <HiMenu className="h-8 w-8" />}
         </button>
 
         <nav
-          className={`${isMenuOpen ? 'flex' : 'hidden'} absolute left-0 right-0 top-full flex-col gap-5 border-b border-cyan-100 bg-white/95 px-6 py-5 shadow-xl md:static md:flex md:flex-row md:items-center md:gap-7 md:border-0 md:bg-transparent md:p-0 md:shadow-none`}
+          className={`${isMenuOpen ? 'flex' : 'hidden'} absolute left-3 right-3 top-[calc(100%+10px)] flex-col gap-3 rounded-[28px] border border-white/40 bg-white/70 px-6 py-6 shadow-[0_16px_48px_rgba(8,42,62,.16)] backdrop-blur-2xl md:static md:flex md:flex-row md:items-center md:gap-3 md:border-0 md:bg-transparent md:p-0 md:shadow-none`}
         >
-          <Link to="/#top" onClick={() => setIsMenuOpen(false)} className="flex items-center gap-2 rounded-full px-3 py-2 font-semibold text-slate-700 transition hover:bg-cyan-50 hover:text-cyan-700">
+          <Link to="/#top" onClick={() => setIsMenuOpen(false)} className="nav-link-pill">
             <MdHome />
             <FormattedMessage id="nav.home" />
           </Link>
-          <Link to="/tours#top" onClick={() => setIsMenuOpen(false)} className="flex items-center gap-2 rounded-full px-3 py-2 font-semibold text-slate-700 transition hover:bg-cyan-50 hover:text-cyan-700">
+          <Link to="/tours#top" onClick={() => setIsMenuOpen(false)} className="nav-link-pill">
             <MdTour />
             <FormattedMessage id="nav.tours" />
           </Link>
-          <Link to="/transport#top" onClick={() => setIsMenuOpen(false)} className="flex items-center gap-2 rounded-full px-3 py-2 font-semibold text-slate-700 transition hover:bg-cyan-50 hover:text-cyan-700">
+          <Link to="/transport#top" onClick={() => setIsMenuOpen(false)} className="nav-link-pill">
             <MdLocalTaxi />
             <FormattedMessage id="nav.transport" defaultMessage="Transport" />
           </Link>
-          <Link to="/contact#top" onClick={() => setIsMenuOpen(false)} className="flex items-center gap-2 rounded-full px-3 py-2 font-semibold text-slate-700 transition hover:bg-cyan-50 hover:text-cyan-700">
+          <Link to="/contact#top" onClick={() => setIsMenuOpen(false)} className="nav-link-pill">
             <MdEmail />
             <FormattedMessage id="nav.contact" />
           </Link>

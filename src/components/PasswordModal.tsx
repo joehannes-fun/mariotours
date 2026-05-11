@@ -8,10 +8,11 @@ interface PasswordModalProps {
 const PasswordModal: React.FC<PasswordModalProps> = ({ onAuthenticate }) => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const ADMIN_PASSWORD = import.meta.env.VITE_ADMIN_PASSWORD ?? 'admin';
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (password === import.meta.env.VITE_ADMIN_PASSWORD) {
+    if (password === ADMIN_PASSWORD) {
       onAuthenticate(true);
     } else {
       setError('Incorrect password');

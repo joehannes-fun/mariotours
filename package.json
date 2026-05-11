@@ -6,6 +6,7 @@
   "main": "src/main.tsx",
   "scripts": {
     "dev": "vite",
+    "remotedev": "vite --host",
     "build": "vite build",
     "serve": "vite preview"
   },

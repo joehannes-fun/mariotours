@@ -1,36 +1,49 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
-import useParallax from '../hooks/useParallax';
 import { useBrand } from '../contexts/BrandContext';
 
 interface HeroProps {
   backgroundImage: string;
+  backgroundVideo?: string;
 }
 
-const Hero: React.FC<HeroProps> = ({ backgroundImage }) => {
-  const parallaxOffset = useParallax(0.2);
+const Hero: React.FC<HeroProps> = ({ backgroundImage, backgroundVideo }) => {
   const { brandSettings } = useBrand();
 
   return (
     <section
-      className="relative overflow-hidden"
+      className="relative isolate overflow-hidden bg-slate-950 z-20 shadow-[0_40_100px_-20px_rgba(0,0,0,0.8)]"
       style={{
-        backgroundImage: `linear-gradient(132deg, rgba(12,17,44,.84), rgba(10,111,126,.72), rgba(255,111,97,.42)), url('${backgroundImage}')`,
+        backgroundImage: `url('${backgroundImage}')`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
-        transform: `translateY(${parallaxOffset}px)`,
       }}
     >
-      <div className="section-shell flex min-h-[86vh] items-center py-20">
-        <div className="glass-card relative max-w-3xl rounded-[2.2rem] border border-white/40 p-8 shadow-2xl md:p-12">
-          <span className="mb-4 inline-flex rounded-full border border-teal-200/70 bg-white/80 px-4 py-2 text-xs font-bold uppercase tracking-[0.24em] text-cyan-800">
-            Bávaro · Punta Cana · Dominican Republic
-          </span>
-          <h1 className="mb-5 text-5xl font-bold leading-tight text-slate-900 drop-shadow-sm md:text-7xl">
+      {backgroundVideo && (
+        <video
+          className="absolute inset-0 -z-20 h-full w-full scale-110 object-cover opacity-75"
+          src={backgroundVideo}
+          autoPlay
+          muted
+          loop
+          playsInline
+          poster={backgroundImage}
+          aria-hidden="true"
+        />
+      )}
+      <div className="absolute inset-0 -z-10 bg-[linear-gradient(120deg,rgba(6,33,50,.82),rgba(10,97,117,.52)_46%,rgba(237,163,79,.32))]" />
+      <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_20%_18%,rgba(255,255,255,.26),transparent_22%),radial-gradient(circle_at_88%_80%,rgba(20,184,166,.28),transparent_30%)]" />
+
+      <div className="section-shell flex min-h-[86vh] items-center py-24 md:py-28">
+        <div className="hero-glass max-w-3xl p-7 md:p-12">
+          <p className="mb-4 text-sm font-bold uppercase text-teal-900">
+            Bavaro · Punta Cana · Dominican Republic
+          </p>
+          <h1 className="mb-5 text-5xl font-bold leading-tight text-slate-950 md:text-7xl">
             <FormattedMessage id="hero.title" values={{ brand: brandSettings.brandName }} />
           </h1>
-          <p className="mb-8 max-w-2xl text-lg font-medium text-slate-700 md:text-xl">
+          <p className="mb-8 max-w-2xl text-lg leading-8 text-slate-800 md:text-xl">
             <FormattedMessage id="hero.subtitle" />
           </p>
           <div className="flex flex-wrap gap-4">

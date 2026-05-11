@@ -32,20 +32,20 @@ const Testimonials = () => {
   return (
     <section className="py-20">
       <div className="section-shell">
-        <h2 className="mb-12 text-center text-5xl font-bold text-slate-900 md:text-6xl">
+        <h2 className="mb-12 text-center text-5xl font-bold text-slate-900">
           <FormattedMessage id="testimonials.title" />
         </h2>
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
           {testimonials.map((testimonial, index) => (
-            <article key={index} className="glass-card rounded-[2rem] border border-white/40 p-6 shadow-xl">
+            <article key={index} className="glass-card rounded-3xl p-6">
               <div className="mb-5 flex items-center gap-3">
-                <img src={testimonial.avatar} alt={testimonial.name} className="h-12 w-12 rounded-[18px] border-2 border-cyan-400 object-cover" />
+                <img src={testimonial.avatar} alt={testimonial.name} className="h-12 w-12 rounded-full border-2 border-teal-500" />
                 <div>
                   <h3 className="font-semibold text-slate-900">{testimonial.name}</h3>
                   <p className="text-sm text-slate-500">{testimonial.location}</p>
                 </div>
               </div>
-              <p className="italic leading-relaxed text-slate-600">"{testimonial.feedback}"</p>
+              <p className="italic text-slate-600">"{testimonial.feedback}"</p>
             </article>
           ))}
         </div>
