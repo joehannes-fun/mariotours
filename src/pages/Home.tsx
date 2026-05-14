@@ -8,28 +8,20 @@ import TestimonialDisplay from '../components/TestimonialDisplay';
 import SocialMediaVideos from '../components/SocialMediaVideos';
 import FABWhatsApp from '../components/FABWhatsApp';
 import { useBrand } from '../contexts/BrandContext';
-<<<<<<< HEAD
 import { useI18n } from '../contexts/I18nContext';
 import { generateWhatsAppMessage } from '../utils/whatsapp';
 import { getFallbackIntroStory, getIntroStoryPreferred, StoryData } from '../services/introStoryService';
-=======
 import { useBlog } from '../contexts/BlogContext';
->>>>>>> 1548bd9 (Add blog integration with SEO optimization and bilingual support)
 
 const HERO_BACKGROUND_IMAGE = '/imgs/tours/tour_saona_island_detail_12.jpg';
 const HERO_BACKGROUND_VIDEO = '/buggy.mp4';
 
 const Home: React.FC = () => {
   const { brandSettings } = useBrand();
-<<<<<<< HEAD
   const { locale } = useI18n();
+  const { blogArticles } = useBlog();
   const navigate = useNavigate();
   const [storyData, setStoryData] = useState<StoryData | null>(null);
-=======
-  const { blogArticles } = useBlog();
-  const [examples, setExamples] = useState<Array<Tour & { targetPath: string }>>([]);
-  const [loading, setLoading] = useState(true);
->>>>>>> 1548bd9 (Add blog integration with SEO optimization and bilingual support)
 
   useEffect(() => {
     let isCurrent = true;
@@ -243,7 +235,6 @@ const Home: React.FC = () => {
       <section className="home-section dawn-section relative overflow-hidden px-4 py-20 sm:py-24 md:px-8">
         <div className="parallax-wash parallax-wash-right" />
 
-<<<<<<< HEAD
         <div className="relative z-10 max-w-4xl mx-auto text-center">
           <h2 className="mb-6 text-3xl font-bold leading-tight text-slate-900 sm:text-4xl md:text-5xl">
             Your Caribbean Day Awaits
@@ -270,9 +261,6 @@ const Home: React.FC = () => {
 
       {/* Social Media Videos Section - Only shows if videos exist */}
       <SocialMediaVideos />
-=======
-      <Features />
-      <Testimonials />
 
       {/* SEO: Hidden blog articles for search engine indexing */}
       <div className="hidden h-0 w-0 overflow-hidden">
@@ -285,7 +273,6 @@ const Home: React.FC = () => {
           </article>
         ))}
       </div>
->>>>>>> 1548bd9 (Add blog integration with SEO optimization and bilingual support)
     </div>
   );
 };

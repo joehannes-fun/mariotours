@@ -45,15 +45,11 @@ const Header: React.FC = () => {
             <MdLocalTaxi />
             <FormattedMessage id="nav.transport" defaultMessage="Transport" />
           </Link>
-<<<<<<< HEAD
-          <Link to="/contact#top" onClick={() => setIsMenuOpen(false)} className="nav-link-pill">
-=======
           <Link to="/blog#top" onClick={() => setIsMenuOpen(false)} className="flex items-center gap-2 rounded-full px-3 py-2 font-semibold text-slate-700 transition hover:bg-cyan-50 hover:text-cyan-700">
             <MdLibraryBooks />
             <FormattedMessage id="nav.blog" defaultMessage="Blog" />
           </Link>
           <Link to="/contact#top" onClick={() => setIsMenuOpen(false)} className="flex items-center gap-2 rounded-full px-3 py-2 font-semibold text-slate-700 transition hover:bg-cyan-50 hover:text-cyan-700">
->>>>>>> 1548bd9 (Add blog integration with SEO optimization and bilingual support)
             <MdEmail />
             <FormattedMessage id="nav.contact" />
           </Link>
