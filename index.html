@@ -12,26 +12,175 @@
       content="Caribbean tours and excursions in Punta Cana: island trips, party boats, dune buggies, 4x4 adventures, horseback riding, dolphin swimming, nightlife and more."
     />
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Robots & Indexing -->
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://YOUR_DOMAIN_HERE" />
 
-    <!-- OpenGraph (important for WhatsApp / Facebook) -->
-    <meta property="og:title" content="Caribbean Tours & Excursions in Punta Cana" />
-    <meta property="og:description" content="Island trips, party boats, buggy tours, horseback riding and unforgettable Caribbean adventures." />
+    <!-- Viewport & Performance -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0891b2" />
+    <meta name="format-detection" content="telephone=no" />
+    
+    <!-- Language Alternates (for multi-language content) -->
+    <link rel="alternate" hreflang="en" href="https://YOUR_DOMAIN_HERE/en" />
+    <link rel="alternate" hreflang="es" href="https://YOUR_DOMAIN_HERE/es" />
+    <link rel="alternate" hreflang="x-default" href="https://YOUR_DOMAIN_HERE" />
+
+    <!-- OpenGraph (important for WhatsApp / Facebook / Social) -->
+    <meta property="og:title" content="Caribbean Tours & Excursions in Punta Cana | Island Adventures" />
+    <meta property="og:description" content="Island trips, party boats, buggy tours, horseback riding and unforgettable Caribbean adventures in Punta Cana, Dominican Republic." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://YOUR_DOMAIN_HERE" />
     <meta property="og:image" content="https://YOUR_DOMAIN_HERE/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="Caribbean Tours" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale:alternate" content="es_DO" />
 
+<<<<<<< HEAD
      <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+=======
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Caribbean Tours & Excursions in Punta Cana" />
+    <meta name="twitter:description" content="Island trips, party boats, buggy tours, horseback riding and unforgettable Caribbean adventures." />
+    <meta name="twitter:image" content="https://YOUR_DOMAIN_HERE/og-image.jpg" />
+    <meta name="twitter:site" content="@YOUR_TWITTER_HANDLE" />
+
+    <!-- Additional Meta Tags for SEO -->
+    <meta name="author" content="Caribbean Tours" />
+    <meta name="publisher" content="Caribbean Tours" />
+    <meta name="keywords" content="Punta Cana tours, Dominican Republic excursions, island trips, buggy tours, horseback riding, water sports, Bavaro adventures, Punta Cana tourism" />
+    <meta name="geo.position" content="18.6945;-68.4156" />
+    <meta name="ICBM" content="18.6945, -68.4156" />
+
+    <!-- Favicon -->
+>>>>>>> 1548bd9 (Add blog integration with SEO optimization and bilingual support)
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-    
-    <!-- Optional: PNG version for modern browsers -->
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-    
-    <!-- Optional: Apple Touch Icon for iOS -->
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
+    <!-- Performance: Preconnect to API services -->
+    <link rel="preconnect" href="https://api.jsonbin.io" />
+    <link rel="preconnect" href="https://res.cloudinary.com" />
+    <link rel="dns-prefetch" href="https://api.jsonbin.io" />
+    <link rel="dns-prefetch" href="https://res.cloudinary.com" />
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Caribbean Tours",
+      "url": "https://YOUR_DOMAIN_HERE",
+      "logo": "https://YOUR_DOMAIN_HERE/logo.png",
+      "description": "Premium Caribbean tours and excursions in Punta Cana, Dominican Republic.",
+      "sameAs": [
+        "https://www.facebook.com/YOUR_FACEBOOK",
+        "https://www.instagram.com/YOUR_INSTAGRAM",
+        "https://www.youtube.com/@YOUR_YOUTUBE"
+      ],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "Customer Service",
+        "telephone": "+1-809-555-0123",
+        "email": "info@YOUR_DOMAIN_HERE"
+      }
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "Caribbean Tours",
+      "description": "Premium Caribbean tours and excursions in Punta Cana",
+      "url": "https://YOUR_DOMAIN_HERE",
+      "telephone": "+1-809-555-0123",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "El Cortecito, Bávaro",
+        "addressLocality": "Punta Cana",
+        "addressRegion": "La Altagracia",
+        "postalCode": "23000",
+        "addressCountry": "DO"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": "18.6945",
+        "longitude": "-68.4156"
+      },
+      "priceRange": "$$",
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+          "opens": "07:00",
+          "closes": "19:00"
+        }
+      ]
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://YOUR_DOMAIN_HERE/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Tours",
+          "item": "https://YOUR_DOMAIN_HERE/tours"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Transportation",
+          "item": "https://YOUR_DOMAIN_HERE/transport"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Blog",
+          "item": "https://YOUR_DOMAIN_HERE/blog"
+        },
+        {
+          "@type": "ListItem",
+          "position": 5,
+          "name": "Contact",
+          "item": "https://YOUR_DOMAIN_HERE/contact"
+        }
+      ]
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "TravelAgency",
+      "name": "Caribbean Tours",
+      "description": "Boutique excursions and Caribbean adventures in Punta Cana",
+      "url": "https://YOUR_DOMAIN_HERE",
+      "areaServed": {
+        "@type": "GeoShape",
+        "box": "18.6700 -68.4500 18.7200 -68.3800"
+      },
+      "availableLanguage": ["en", "es"]
+    }
+    </script>
 
   </head>
   <body>

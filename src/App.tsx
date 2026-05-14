@@ -5,6 +5,7 @@ import Tours from './pages/Tours';
 import Contact from './pages/Contact';
 import Admin from './pages/Admin';
 import Transport from './pages/Transport';
+import Blog from './pages/Blog';
 import ServiceDetails from './pages/ServiceDetails';
 import AdminTransport from './pages/AdminTransport';
 import Header from './components/layout/Header';
@@ -23,6 +24,7 @@ const App = () => {
             <Route path="/" element={<Home />} />
             <Route path="/tours" element={<Tours />} />
             <Route path="/transport" element={<Transport />} />
+            <Route path="/blog" element={<Blog />} />
             <Route path="/details/:category/:id" element={<ServiceDetails />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/admin" element={<ProtectedRoute component={Admin} />} />

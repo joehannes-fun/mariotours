@@ -2,8 +2,9 @@
   "nav": {
     "home": "Home",
     "tours": "Tours",
-    "contact": "Contact",
-    "transport": "Transport"
+    "transport": "Transport",
+    "blog": "Blog",
+    "contact": "Contact"
   },
   "hero": {
     "title": "Discover {brand}",
@@ -61,6 +62,13 @@
     "vibes": "Vibes",
     "bestFor": "Best for",
     "highlights": "Highlights"
+  },
+  "blog": {
+    "title": "Blog",
+    "description": "Insights and stories about {brand}, tours, and travel tips for your Punta Cana adventure.",
+    "relatedTourLabel": "Related tour",
+    "error": "Unable to load blog content at this time.",
+    "noArticles": "No articles available yet. Please check back soon."
   },
   "contact": {
     "title": "Contact Us",
