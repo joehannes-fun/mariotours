@@ -64,12 +64,24 @@ const Blog = () => {
             <div className="text-slate-700">Loading blog articles...</div>
           </div>
         ) : error ? (
-          <div className="rounded-[2rem] border border-red-200 bg-red-50 p-10 text-center text-red-700 shadow-sm">
-            <FormattedMessage id="blog.error" defaultMessage="Unable to load blog articles at this time." />
+          <div className="rounded-[2rem] border border-red-200 bg-red-50 p-10 shadow-sm">
+            <h3 className="mb-3 text-lg font-semibold text-red-900">Unable to load blog content</h3>
+            <div className="mb-4 text-sm text-red-800">
+              <p className="mb-2"><strong>Status:</strong> Blog articles failed to load.</p>
+              <p className="mb-2"><strong>Possible causes:</strong></p>
+              <ul className="list-inside list-disc space-y-1 ml-4 text-xs">
+                <li>Blog bin IDs not configured in Cloudflare Pages environment variables</li>
+                <li>JSONBin API key not set or invalid</li>
+                <li>CORS blocking direct JSONBin requests (use Cloudflare Functions endpoint)</li>
+                <li>Network connectivity issue</li>
+              </ul>
+            </div>
+            <p className="text-xs text-red-700">Check browser console (F12) for detailed error logs starting with [Blog]</p>
           </div>
         ) : articles.length === 0 ? (
           <div className="rounded-[2rem] border border-slate-200 bg-white p-10 text-center text-slate-700 shadow-sm">
             <FormattedMessage id="blog.noArticles" defaultMessage="No articles available yet. Please check back soon." />
+            <p className="mt-3 text-xs text-slate-500">If blog should have content, verify VITE_JSONBIN_BLOG_EN and VITE_JSONBIN_BLOG_ES environment variables are set.</p>
           </div>
         ) : (
           <div className="grid gap-8">

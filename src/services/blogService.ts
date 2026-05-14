@@ -91,41 +91,60 @@ const extractRecord = (data: unknown): unknown[] => {
 };
 
 const fetchFromProxy = async (locale: Locale): Promise<unknown[]> => {
-  const response = await fetch(`${BLOG_API_ENDPOINT}?locale=${locale}`, {
-    cache: 'no-cache',
-  });
-  if (!response.ok) {
-    throw new Error(`Blog proxy request failed (${response.status})`);
+  console.log('[Blog] Attempting proxy fetch from:', `${BLOG_API_ENDPOINT}?locale=${locale}`);
+  try {
+    const response = await fetch(`${BLOG_API_ENDPOINT}?locale=${locale}`, {
+      cache: 'no-cache',
+    });
+    if (!response.ok) {
+      throw new Error(`Blog proxy request failed with status ${response.status}`);
+    }
+    const data = await response.json();
+    console.log('[Blog] Proxy fetch successful, records:', data);
+    return extractRecord(data);
+  } catch (error) {
+    console.warn('[Blog] Proxy fetch error:', error);
+    throw error;
   }
-  const data = await response.json();
-  return extractRecord(data);
 };
 
 const fetchDirectBlogArticles = async (binId: string | undefined): Promise<unknown[]> => {
-  if (!binId || !JSONBIN_MASTER_KEY) {
+  if (!binId) {
+    console.warn('[Blog] No blog bin ID configured (VITE_JSONBIN_BLOG_EN/ES missing)');
+    return [];
+  }
+
+  if (!JSONBIN_MASTER_KEY) {
+    console.warn('[Blog] No JSONBin master key configured (VITE_JSONBIN_MASTER_KEY missing)');
     return [];
   }
 
   try {
+    console.log('[Blog] Attempting direct JSONBin fetch from bin:', binId);
     const response = await fetch(`https://api.jsonbin.io/v3/b/${binId}/latest`, {
       headers: {
         'X-Master-Key': JSONBIN_MASTER_KEY,
       },
       cache: 'no-cache',
     });
+    if (!response.ok) {
+      throw new Error(`JSONBin request failed with status ${response.status}`);
+    }
     const data = await response.json();
+    console.log('[Blog] Direct fetch successful, records:', data);
     return extractRecord(data);
   } catch (error) {
-    console.error('Failed to fetch blog articles directly:', error);
+    console.error('[Blog] Direct fetch failed (likely CORS issue in browser):', error);
     return [];
   }
 };
 
 const fetchRawBlogArticles = async (locale: Locale): Promise<unknown[]> => {
+  console.log('[Blog] Starting blog fetch for locale:', locale);
   try {
     return await fetchFromProxy(locale);
   } catch (error) {
-    console.warn('Blog proxy fetch failed, falling back to direct JSONBin fetch:', error);
+    console.warn('[Blog] Proxy unavailable, falling back to direct JSONBin fetch');
     const binId = resolveBlogBinId(locale);
     return await fetchDirectBlogArticles(binId);
   }

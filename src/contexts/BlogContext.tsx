@@ -36,10 +36,12 @@ export const BlogProvider: React.FC<BlogProviderProps> = ({ children }) => {
       setError(false);
 
       try {
+        console.log('[BlogContext] Starting blog content load...');
         const [enArticles, esArticles] = await Promise.all([getBlogArticles('en'), getBlogArticles('es')]);
+        console.log('[BlogContext] Blog content loaded. EN articles:', enArticles.length, 'ES articles:', esArticles.length);
         setBlogArticles({ en: enArticles, es: esArticles });
       } catch (err) {
-        console.error('Blog loading error:', err);
+        console.error('[BlogContext] Blog loading error:', err);
         setError(true);
       } finally {
         setLoading(false);
