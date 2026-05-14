@@ -11,7 +11,7 @@ export async function onRequest(context: { request: Request; env: Record<string,
     console.error(`[Cloudflare Function] Missing config - binId: ${!!binId}, masterKey: ${!!masterKey}`);
     return new Response(JSON.stringify({ error: 'Blog bin ID or master key is not configured in Cloudflare Pages environment.' }), {
       status: 500,
-      headers: { 'Content-Type': 'application/json' },
+      //headers: { 'Content-Type': 'application/json' },
     });
   }
 
@@ -29,7 +29,7 @@ export async function onRequest(context: { request: Request; env: Record<string,
       console.error(`[Cloudflare Function] JSONBin returned ${response.status}`);
       return new Response(JSON.stringify({ error: `JSONBin error: ${response.status}` }), {
         status: response.status,
-        headers: { 'Content-Type': 'application/json' },
+        //headers: { 'Content-Type': 'application/json' },
       });
     }
 
@@ -38,7 +38,7 @@ export async function onRequest(context: { request: Request; env: Record<string,
     return new Response(body, {
       status: 200,
       headers: {
-        'Content-Type': 'application/json',
+        //'Content-Type': 'application/json',
         'Cache-Control': 'max-age=300',
       },
     });
@@ -46,7 +46,7 @@ export async function onRequest(context: { request: Request; env: Record<string,
     console.error(`[Cloudflare Function] Error:`, error);
     return new Response(JSON.stringify({ error: String(error) }), {
       status: 500,
-      headers: { 'Content-Type': 'application/json' },
+      //headers: { 'Content-Type': 'application/json' },
     });
   }
 }
