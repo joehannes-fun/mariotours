@@ -11,14 +11,14 @@ const Header: React.FC = () => {
   const { brandSettings } = useBrand();
 
   return (
-    <header className="sticky top-0 z-50 border-b border-white/30 bg-white/60 shadow-[0_8px_32px_rgba(8,42,62,.15)] backdrop-blur-xl">
-      <div className="section-shell flex items-center justify-between py-4">
+    <header className="sticky top-0 z-50 overflow-visible border-b border-white/30 bg-white/60 shadow-[0_8px_32px_rgba(8,42,62,.15)] backdrop-blur-xl">
+      <div className="section-shell flex items-center justify-between py-4 pl-[7.25rem] sm:pl-[7.75rem] lg:pl-8">
         <Link to="/#top" className="group flex items-center gap-3">
-          <div className="flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-white/80 to-cyan-50/60 shadow-[0_8px_24px_rgba(23,182,168,.12)] ring-1 ring-white/40 overflow-hidden backdrop-blur-md">
+          <div className="menu-logo-icon fixed left-4 top-2 flex h-[6.125rem] w-[6.125rem] items-center justify-center rounded-full bg-gradient-to-br from-white/80 to-cyan-50/60 shadow-[0_8px_24px_rgba(23,182,168,.12)] ring-1 ring-white/40 overflow-hidden backdrop-blur-md sm:left-6 lg:left-[max(2rem,calc((100vw-80rem)/2+2rem))]">
             {brandSettings.brandicon ? (
               <img src={brandSettings.brandicon} alt="Logo" className="h-full w-full object-cover" />
             ) : (
-              <img src="/competitor-logo.svg" alt="Logo" className="h-12 w-12" />
+              <img src="/competitor-logo.svg" alt="Logo" className="h-[5.25rem] w-[5.25rem]" />
             )}
           </div>
           <h1 className="hidden text-2xl font-bold text-slate-900 transition group-hover:text-teal-700 sm:block">

@@ -137,6 +137,11 @@ button {
   color: var(--palm);
 }
 
+.menu-logo-icon {
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, rgba(0, 0, 0, 0.5) 100%);
+  mask-image: linear-gradient(to bottom, #000 0%, rgba(0, 0, 0, 0.5) 100%);
+}
+
 .shore-section {
   background: linear-gradient(135deg, rgba(255, 250, 242, 0.92), rgba(255, 238, 220, 0.88) 50%, rgba(255, 252, 248, 0.94));
   backdrop-filter: blur(8px);
