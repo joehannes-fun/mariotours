@@ -26,6 +26,7 @@ export const BrandProvider: React.FC<BrandProviderProps> = ({ children }) => {
     phoneNumber: '+1 (809) 555-0123',
     paypalMeLink: 'https://www.paypal.com/paypalme/carlostours',
     verifoneLink: '',
+    brandicon: '',
   });
 
   useEffect(() => {

@@ -14,8 +14,12 @@ const Header: React.FC = () => {
     <header className="sticky top-0 z-50 border-b border-white/30 bg-white/60 shadow-[0_8px_32px_rgba(8,42,62,.15)] backdrop-blur-xl">
       <div className="section-shell flex items-center justify-between py-4">
         <Link to="/#top" className="group flex items-center gap-3">
-          <div className="grid h-14 w-14 place-items-center rounded-full bg-gradient-to-br from-white/80 to-cyan-50/60 shadow-[0_8px_24px_rgba(23,182,168,.12)] ring-1 ring-white/40 backdrop-blur-md">
-            <img src="/competitor-logo.svg" alt="Logo" className="h-12 w-12" />
+          <div className="flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-white/80 to-cyan-50/60 shadow-[0_8px_24px_rgba(23,182,168,.12)] ring-1 ring-white/40 overflow-hidden backdrop-blur-md">
+            {brandSettings.brandicon ? (
+              <img src={brandSettings.brandicon} alt="Logo" className="h-full w-full object-cover" />
+            ) : (
+              <img src="/competitor-logo.svg" alt="Logo" className="h-12 w-12" />
+            )}
           </div>
           <h1 className="hidden text-2xl font-bold text-slate-900 transition group-hover:text-teal-700 sm:block">
             {brandSettings.brandName}
