@@ -19,9 +19,9 @@ export async function onRequest(context: { request: Request; env: Record<string,
     const apiUrl = `https://api.jsonbin.io/v3/b/${binId}/latest`;
     console.log(`[Cloudflare Function] Fetching from JSONBin: ${apiUrl}`);
     const response = await fetch(apiUrl, {
-      //headers: {
-      //  'X-Master-Key': masterKey,
-      //},
+      headers: {
+        'X-Master-Key': masterKey,
+      },
       cache: 'no-cache',
     });
 

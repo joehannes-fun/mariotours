@@ -137,17 +137,15 @@ const fetchDirectBlogArticles = async (binId: string | undefined): Promise<unkno
     return [];
   }
 
-  if (!JSONBIN_MASTER_KEY) {
-    console.warn('[Blog] No JSONBin master key configured (VITE_JSONBIN_MASTER_KEY missing)');
-    return [];
-  }
-
   try {
     console.log('[Blog] Attempting direct JSONBin fetch from bin:', binId);
+    const headers: Record<string, string> = {};
+    if (JSONBIN_MASTER_KEY) {
+      headers['X-Master-Key'] = JSONBIN_MASTER_KEY;
+    }
+
     const response = await fetch(`https://api.jsonbin.io/v3/b/${binId}/latest`, {
-      //headers: {
-      // 'X-Master-Key': JSONBIN_MASTER_KEY,
-      //},
+      headers,
       cache: 'no-cache',
     });
     if (!response.ok) {

@@ -138,8 +138,6 @@ button {
 }
 
 .menu-logo-icon {
-  -webkit-mask-image: linear-gradient(to bottom, #000 0%, rgba(0, 0, 0, 0.5) 100%);
-  mask-image: linear-gradient(to bottom, #000 0%, rgba(0, 0, 0, 0.5) 100%);
 }
 
 .shore-section {
