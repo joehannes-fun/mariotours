@@ -3,7 +3,19 @@ import path from 'path';
 
 const projectRoot = path.resolve(new URL('..', import.meta.url).pathname);
 const sitemapPath = path.join(projectRoot, 'public', 'sitemap.xml');
-const siteUrl = process.env.SITE_URL || 'https://yourdomain.com';
+
+const normalizeDomain = (value) => {
+  if (!value) return 'https://ferreras.tours';
+  const trimmed = value.trim().replace(/\/$/, '');
+  if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) {
+    return trimmed;
+  }
+  return `https://${trimmed}`;
+};
+
+const siteUrl = normalizeDomain(
+  process.env.SITE_URL || process.env.CLOUDFLARE_PAGES_URL || process.env.CLOUDFLARE_DOMAIN || 'ferreras.tours'
+);
 
 const slugify = (value) =>
   value
