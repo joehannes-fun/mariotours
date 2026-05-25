@@ -298,8 +298,9 @@ const Transport: React.FC = () => {
                       }}
                     />
                     {form.originMunicipio && (
-                      <div className="mt-2 inline-block rounded-full bg-teal-50 px-3 py-1 text-xs font-semibold text-teal-700">
-                        📍 {form.originMunicipio}
+                      <div className="mt-2 inline-flex items-center gap-2 rounded-full bg-teal-50 px-3 py-1 text-xs font-semibold text-teal-700">
+                        <span>📍</span>
+                        <span>{locale === 'es' ? 'Municipio origen' : 'Origin municipio'}: {form.originMunicipio}</span>
                       </div>
                     )}
                   </div>
