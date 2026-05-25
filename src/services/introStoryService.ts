@@ -1,6 +1,7 @@
 import introStoryEn from '../data/introStory.en.json';
 import introStoryEs from '../data/introStory.es.json';
 import { getStoryElements, StoryElementsData, StoryElement } from './storyElementsService';
+import { apiGet } from './apiClient';
 
 export type JourneyLocale = 'en' | 'es';
 
@@ -42,24 +43,9 @@ export interface StoryData {
   }>;
 }
 
-const JSONBIN_MASTER_KEY = import.meta.env.VITE_JSONBIN_MASTER_KEY;
-const JSONBIN_JOURNEY_EN = import.meta.env.VITE_JSONBIN_JOURNEY_EN;
-const JSONBIN_JOURNEY_ES = import.meta.env.VITE_JSONBIN_JOURNEY_ES;
-
 const fallbackStoryByLocale: Record<JourneyLocale, StoryData> = {
   en: introStoryEn as StoryData,
   es: introStoryEs as StoryData,
-};
-
-const resolveJourneyBin = (locale: JourneyLocale) =>
-  locale === 'es' ? JSONBIN_JOURNEY_ES : JSONBIN_JOURNEY_EN;
-
-const resolveJsonBinUrl = (binOrUrl: string) => {
-  if (/^https?:\/\//i.test(binOrUrl)) {
-    return binOrUrl;
-  }
-
-  return `https://api.jsonbin.io/v3/b/${binOrUrl}/latest`;
 };
 
 const unwrapJsonBinRecord = (payload: unknown): unknown => {
@@ -102,24 +88,10 @@ export const getFallbackIntroStory = (locale: JourneyLocale): StoryData => fallb
 
 export const getIntroStory = async (locale: JourneyLocale): Promise<StoryData> => {
   const fallbackStory = getFallbackIntroStory(locale);
-  const binOrUrl = resolveJourneyBin(locale);
-
-  if (!binOrUrl) {
-    return fallbackStory;
-  }
 
   try {
-    const response = await fetch(resolveJsonBinUrl(binOrUrl), {
-      cache: 'no-cache',
-    });
-
-    if (!response.ok) {
-      throw new Error(`JSONBin journey request failed with ${response.status}`);
-    }
-
-    const payload = await response.json();
-    const remoteStory = unwrapJsonBinRecord(payload);
-
+    const data = await apiGet<unknown>('intro-story', { locale });
+    const remoteStory = unwrapJsonBinRecord(data);
     return isStoryData(remoteStory) ? remoteStory : fallbackStory;
   } catch (error) {
     console.error(`Failed to fetch ${locale} intro journey:`, error);
@@ -212,6 +184,6 @@ export const getIntroStoryPreferred = async (locale: JourneyLocale): Promise<Sto
     console.warn('Story elements not available, falling back to legacy journey.', e);
   }
 
-  // Fallback to legacy journey JSONBin
+  // Fallback to legacy journey endpoint
   return getIntroStory(locale);
 };

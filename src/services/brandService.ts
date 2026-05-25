@@ -1,5 +1,4 @@
-const JSONBIN_MASTER_KEY = import.meta.env.VITE_JSONBIN_MASTER_KEY;
-const JSONBIN_BRAND_BIN_ID = import.meta.env.VITE_JSONBIN_BRAND_BIN_ID;
+import { apiGet, apiPut } from './apiClient';
 
 export interface BrandSettings {
   brandName: string;
@@ -42,12 +41,9 @@ const normalizeBrandSettings = (input: Partial<BrandSettings> | null | undefined
 
 export const getBrandSettings = async (): Promise<BrandSettings> => {
   try {
-    const response = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BRAND_BIN_ID}/latest`, {
-      cache: 'no-cache',
-    });
-    const data = await response.json();
-    const brandData = data.record?.record || data.record || {};
-    return normalizeBrandSettings(brandData);
+    const data = await apiGet<unknown>('brand');
+    const brandData = (data as Record<string, unknown>).record ?? data;
+    return normalizeBrandSettings(brandData as Partial<BrandSettings>);
   } catch (error) {
     console.error('Failed to fetch brand settings:', error);
     return defaultBrandSettings;
@@ -56,14 +52,7 @@ export const getBrandSettings = async (): Promise<BrandSettings> => {
 
 export const saveBrandSettings = async (settings: BrandSettings): Promise<void> => {
   try {
-    await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BRAND_BIN_ID}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Master-Key': JSONBIN_MASTER_KEY,
-      },
-      body: JSON.stringify(settings),
-    });
+    await apiPut<unknown>('brand', settings);
   } catch (error) {
     console.error('Failed to save brand settings:', error);
   }

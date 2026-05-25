@@ -1,3 +1,4 @@
+import { apiGet, apiPut } from './apiClient';
 import { JourneyLocale } from './introStoryService';
 
 export type StoryElementType = 'title' | 'paragraph' | 'picture' | 'video' | 'cta';
@@ -35,34 +36,10 @@ export interface StoryElementsData {
   elements: StoryElement[];
 }
 
-const JSONBIN_MASTER_KEY = import.meta.env.VITE_JSONBIN_MASTER_KEY;
-const JSONBIN_STORY_ELEMENTS_EN =
-  import.meta.env.VITE_JSONBIN_STORY_ELEMENTS_EN ||
-  import.meta.env.JSONBIN_VITE_STORY_ELEMENTS_EN;
-const JSONBIN_STORY_ELEMENTS_ES =
-  import.meta.env.VITE_JSONBIN_STORY_ELEMENTS_ES ||
-  import.meta.env.JSONBIN_VITE_STORY_ELEMENTS_ES;
 const CLOUDINARY_CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
 const CLOUDINARY_UPLOAD_PRESET = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
 
-const resolveStoryElementsBin = (locale: JourneyLocale) =>
-  locale === 'es' ? JSONBIN_STORY_ELEMENTS_ES : JSONBIN_STORY_ELEMENTS_EN;
-
-const resolveStoryElementsEndpoint = (binOrUrl: string, withLatest = true) => {
-  let url = binOrUrl.trim().replace(/\/+$/, '');
-
-  if (/^https?:\/\//i.test(url)) {
-    if (withLatest) {
-      return url.match(/\/latest$/i) ? url : `${url}/latest`;
-    }
-    return url.replace(/\/latest$/i, '');
-  }
-
-  const baseUrl = `https://api.jsonbin.io/v3/b/${url}`;
-  return withLatest ? `${baseUrl}/latest` : baseUrl;
-};
-
-const unwrapJsonBinRecord = (payload: unknown): unknown => {
+const unwrapRecord = (payload: unknown): unknown => {
   if (!payload || typeof payload !== 'object') {
     return payload;
   }
@@ -91,28 +68,12 @@ const isStoryElementsData = (input: unknown): input is StoryElementsData => {
 };
 
 export const getStoryElements = async (locale: JourneyLocale): Promise<StoryElementsData | null> => {
-  const binOrUrl = resolveStoryElementsBin(locale);
-
-  if (!binOrUrl) {
-    console.warn(`Story elements config missing for locale ${locale}`);
-    return null;
-  }
-
   try {
-    const response = await fetch(resolveStoryElementsEndpoint(binOrUrl, true), {
-      cache: 'no-cache',
-    });
-
-    if (!response.ok) {
-      throw new Error(`JSONBin request failed with ${response.status}`);
-    }
-
-    const payload = await response.json();
-    const remoteData = unwrapJsonBinRecord(payload);
-
-    return isStoryElementsData(remoteData) ? remoteData : null;
+    const response = await apiGet<unknown>('story-elements', { locale });
+    const payload = unwrapRecord(response);
+    return isStoryElementsData(payload) ? payload : null;
   } catch (error) {
-    console.error(`Failed to fetch ${locale} story elements:`, error);
+    console.warn(`Failed to fetch ${locale} story elements:`, error);
     return null;
   }
 };
@@ -121,30 +82,8 @@ export const saveStoryElements = async (
   data: StoryElementsData,
   locale: JourneyLocale
 ): Promise<boolean> => {
-  const binOrUrl = resolveStoryElementsBin(locale);
-
-  if (!binOrUrl) {
-    console.error('Story elements bin ID not configured');
-    return false;
-  }
-
   try {
-    const headers: HeadersInit = {
-      //'Content-Type': 'application/json',
-      //'X-Master-Key': JSONBIN_MASTER_KEY || '',
-    };
-
-    const response = await fetch(resolveStoryElementsEndpoint(binOrUrl, false), {
-      method: 'PUT',
-      headers,
-      body: JSON.stringify(data),
-      cache: 'no-cache',
-    });
-
-    if (!response.ok) {
-      throw new Error(`JSONBin save failed with ${response.status}`);
-    }
-
+    await apiPut('story-elements', data, { locale });
     return true;
   } catch (error) {
     console.error(`Failed to save ${locale} story elements:`, error);
@@ -168,7 +107,6 @@ export const uploadImage = async (file: File, onProgress?: (percent: number) => 
   try {
     const xhr = new XMLHttpRequest();
 
-    // Track upload progress
     if (onProgress) {
       xhr.upload.addEventListener('progress', (event) => {
         if (event.lengthComputable) {

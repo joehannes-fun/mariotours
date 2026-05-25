@@ -1,3 +1,5 @@
+import { apiGet, apiPut } from './apiClient';
+
 export interface TestimonialRecord {
   id: string;
   name: string;
@@ -7,9 +9,6 @@ export interface TestimonialRecord {
   profileImage?: string;
   createdAt: string;
 }
-
-const JSONBIN_MASTER_KEY = import.meta.env.VITE_JSONBIN_MASTER_KEY;
-const JSONBIN_TESTIMONIALS_BIN_ID = import.meta.env.VITE_JSONBIN_TESTIMONIALS_BIN_ID;
 
 const defaultTestimonials: TestimonialRecord[] = [
   {
@@ -41,67 +40,30 @@ const defaultTestimonials: TestimonialRecord[] = [
   }
 ];
 
-const resolveJsonBinUrl = (binId: string) =>
-  binId.startsWith('http') ? binId : `https://api.jsonbin.io/v3/b/${binId}/latest`;
-
-const unwrapJsonBinRecord = (payload: any): TestimonialRecord[] => {
-  const record = payload?.record || payload;
-  if (Array.isArray(record?.testimonials)) {
-    return record.testimonials;
+const unwrapTestimonialPayload = (payload: unknown): TestimonialRecord[] => {
+  const record = (payload as Record<string, unknown>)?.record ?? payload;
+  if (Array.isArray((record as Record<string, unknown>).testimonials)) {
+    return (record as Record<string, unknown>).testimonials as TestimonialRecord[];
   }
   if (Array.isArray(record)) {
-    return record;
+    return record as TestimonialRecord[];
   }
   return defaultTestimonials;
 };
 
 export const getTestimonials = async (): Promise<TestimonialRecord[]> => {
   try {
-    if (!JSONBIN_TESTIMONIALS_BIN_ID) {
-      console.warn('Missing JSONBin testimonials bin id, using defaults');
-      return defaultTestimonials;
-    }
-
-    const response = await fetch(resolveJsonBinUrl(JSONBIN_TESTIMONIALS_BIN_ID), {
-      cache: 'no-cache'
-    });
-
-    if (!response.ok) {
-      console.warn('Failed to fetch testimonials from JSONBin, using defaults');
-      return defaultTestimonials;
-    }
-
-    const payload = await response.json();
-    return unwrapJsonBinRecord(payload);
+    const data = await apiGet<unknown>('testimonials');
+    return unwrapTestimonialPayload(data);
   } catch (error) {
-    console.error('Error loading testimonials:', error);
+    console.warn('Error loading testimonials:', error);
     return defaultTestimonials;
   }
 };
 
 export const saveTestimonials = async (testimonials: TestimonialRecord[]): Promise<TestimonialRecord[]> => {
   try {
-    if (!JSONBIN_TESTIMONIALS_BIN_ID) {
-      throw new Error('Missing JSONBin testimonials bin id');
-    }
-
-    const url = JSONBIN_TESTIMONIALS_BIN_ID.startsWith('http')
-      ? JSONBIN_TESTIMONIALS_BIN_ID
-      : `https://api.jsonbin.io/v3/b/${JSONBIN_TESTIMONIALS_BIN_ID}`;
-
-    const response = await fetch(url, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        ...(JSONBIN_MASTER_KEY ? { 'X-Master-Key': JSONBIN_MASTER_KEY } : {})
-      },
-      body: JSON.stringify({ testimonials })
-    });
-
-    if (!response.ok) {
-      throw new Error('Failed to save testimonials to JSONBin');
-    }
-
+    await apiPut<unknown>('testimonials', { testimonials });
     return testimonials;
   } catch (error) {
     console.error('Error saving testimonials:', error);

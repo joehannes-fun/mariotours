@@ -1,39 +1,19 @@
 import { TransferConfig } from '../types/transport';
 import { DEFAULT_TRANSFER_CONFIG } from '../data/transferDefaults';
 import { DEFAULT_MUNICIPIO_MULTIPLIERS } from '../data/municipioPriceMultipliers';
+import { apiGet, apiPut } from './apiClient';
 
-const JSONBIN_MASTER_KEY = import.meta.env.VITE_JSONBIN_MASTER_KEY;
-const JSONBIN_TRANSFER_BIN_ID = import.meta.env.VITE_JSONBIN_TRANSFER_BIN_ID;
 const CLOUDINARY_CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
 const CLOUDINARY_UPLOAD_PRESET = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
 
 export async function getTransferConfig(): Promise<TransferConfig> {
-  if (!JSONBIN_TRANSFER_BIN_ID) {
-    console.warn('VITE_JSONBIN_TRANSFER_BIN_ID not set – using default config');
-    return {
-      ...DEFAULT_TRANSFER_CONFIG,
-      vehicleTypes: [...DEFAULT_TRANSFER_CONFIG.vehicleTypes],
-    };
-  }
-
   try {
-    // Avoid sending the master key on anonymous GETs to prevent preflight CORS failures
-    // (JSONBin may block preflight responses when custom headers are present).
-    const response = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_TRANSFER_BIN_ID}/latest`, {
-      cache: 'no-cache',
-    });
-
-    if (!response.ok) {
-      throw new Error(`JSONBin responded with ${response.status}`);
-    }
-
-    const data = await response.json();
-    const record = data.record?.record || data.record || data;
-
+    const data = await apiGet<unknown>('transfer-config');
+    const record = (data as Record<string, unknown>)?.record ?? data;
     const merged = mergeConfigWithDefaults(record as Partial<TransferConfig>);
     return ensureDistanceDiscountFields(merged);
   } catch (error) {
-    console.error('Failed to fetch transfer config from JSONBin:', error);
+    console.error('Failed to fetch transfer config:', error);
     return {
       ...DEFAULT_TRANSFER_CONFIG,
       vehicleTypes: [...DEFAULT_TRANSFER_CONFIG.vehicleTypes],
@@ -42,22 +22,7 @@ export async function getTransferConfig(): Promise<TransferConfig> {
 }
 
 export async function saveTransferConfig(config: TransferConfig): Promise<void> {
-  if (!JSONBIN_TRANSFER_BIN_ID) {
-    throw new Error('VITE_JSONBIN_TRANSFER_BIN_ID is not set – cannot save');
-  }
-
-  const response = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_TRANSFER_BIN_ID}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-Master-Key': JSONBIN_MASTER_KEY,
-    },
-    body: JSON.stringify({ record: config }),
-  });
-
-  if (!response.ok) {
-    throw new Error(`Failed to save config: JSONBin responded with ${response.status}`);
-  }
+  await apiPut<unknown>('transfer-config', { record: config });
 }
 
 function mergeConfigWithDefaults(partial: Partial<TransferConfig>): TransferConfig {

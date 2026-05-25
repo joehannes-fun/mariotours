@@ -1,18 +1,7 @@
 import { tours as staticTours } from '../data/tours';
 import { transportServices as staticTransportServices } from '../data/transportServices';
 import type { TransferRoute } from '../types/transport';
-
-const JSONBIN_MASTER_KEY = import.meta.env.VITE_JSONBIN_MASTER_KEY;
-const JSONBIN_TOURS_EN_BIN_ID = import.meta.env.VITE_JSONBIN_TOURS_EN;
-const JSONBIN_TOURS_ES_BIN_ID = import.meta.env.VITE_JSONBIN_TOURS_ES;
-const JSONBIN_TRANSPORT_EN_BIN_ID = import.meta.env.VITE_JSONBIN_TRANSPORT_EN;
-const JSONBIN_TRANSPORT_ES_BIN_ID =
-  import.meta.env.VITE_JSONBIN_TRANSPORT || import.meta.env.VITE_JSONBIN_TRANSPORT_ES;
-
-const JSONBIN_EXAMPLETESTOURS_EN_BIN_ID =
-  import.meta.env.VITE_JSONBIN_EXAMPLETESTOURS_EN_BIN_ID;
-const JSONBIN_EXAMPLETESTOURS_ES_BIN_ID =
-  import.meta.env.VITE_JSONBIN_EXAMPLETESTOURS_ES_BIN_ID;
+import { apiGet, apiPut } from './apiClient';
 
 const CLOUDINARY_CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
 const CLOUDINARY_UPLOAD_PRESET = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
@@ -183,47 +172,30 @@ const normalizeServices = (
   return services.map((service, index) => normalizeService(service as RawService, index, category, locale));
 };
 
-const resolveToursBinId = (locale: Locale) =>
-  locale === 'es' ? JSONBIN_TOURS_ES_BIN_ID : JSONBIN_TOURS_EN_BIN_ID;
-
-const resolveTransportBinId = (locale: Locale) =>
-  locale === 'es' ? JSONBIN_TRANSPORT_ES_BIN_ID : JSONBIN_TRANSPORT_EN_BIN_ID;
-
-const resolveExampleToursBinId = (locale: Locale) =>
-  locale === 'es' ? JSONBIN_EXAMPLETESTOURS_ES_BIN_ID : JSONBIN_EXAMPLETESTOURS_EN_BIN_ID;
-
 const fetchServices = async (
-  binId: string | undefined,
+  resource: string,
   fallback: Tour[],
   category: ServiceCategory,
   locale: Locale,
   allowFallback: boolean
 ): Promise<Tour[]> => {
-  if (!binId) {
-    return allowFallback ? fallback : [];
-  }
-
   try {
-    const response = await fetch(`https://api.jsonbin.io/v3/b/${binId}/latest`, {
-      cache: 'no-cache',
-    });
-
-    const data = await response.json();
-    return normalizeServices(data.record?.record || data.record || [], fallback, category, locale);
+    const data = await apiGet<unknown>(resource, { locale });
+    return normalizeServices((data as Record<string, unknown>)?.record ?? data, fallback, category, locale);
   } catch (error) {
-    console.error('Failed to fetch services:', error);
+    console.error(`Failed to fetch services for ${resource}:`, error);
     return allowFallback ? fallback : [];
   }
 };
 
 export const getExampleTours = async (locale: Locale): Promise<Tour[]> =>
-  fetchServices(resolveExampleToursBinId(locale), staticTours, 'tours', locale, true);
+  fetchServices('example-tours', staticTours, 'tours', locale, true);
 
 export const getTours = async (locale: Locale): Promise<Tour[]> =>
-  fetchServices(resolveToursBinId(locale), [], 'tours', locale, false);
+  fetchServices('tours', [], 'tours', locale, false);
 
 export const getTransportServices = async (locale: Locale): Promise<Tour[]> =>
-  fetchServices(resolveTransportBinId(locale), [], 'transport', locale, false);
+  fetchServices('transport-services', [], 'transport', locale, false);
 
 export const getServicesByCategory = async (
   category: ServiceCategory,
@@ -263,25 +235,11 @@ const serializeTransportForSave = (services: Tour[]): RawService[] =>
   }));
 
 export const saveTours = async (tours: Tour[], locale: Locale): Promise<void> => {
-  await fetch(`https://api.jsonbin.io/v3/b/${resolveToursBinId(locale)}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-Master-Key': JSONBIN_MASTER_KEY,
-    },
-    body: JSON.stringify(serializeToursForSave(tours)),
-  });
+  await apiPut<unknown>('tours', serializeToursForSave(tours), { locale });
 };
 
 export const saveTransportServices = async (services: Tour[], locale: Locale): Promise<void> => {
-  await fetch(`https://api.jsonbin.io/v3/b/${resolveTransportBinId(locale)}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-Master-Key': JSONBIN_MASTER_KEY,
-    },
-    body: JSON.stringify(serializeTransportForSave(services)),
-  });
+  await apiPut<unknown>('transport-services', serializeTransportForSave(services), { locale });
 };
 
 export const uploadImage = async (file: File): Promise<string> => {

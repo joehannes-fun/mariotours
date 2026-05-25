@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useEffect, ReactNode } from
 import { IntlProvider } from 'react-intl';
 import enMessagesJson from '../locales/en.json';
 import esMessagesJson from '../locales/es.json';
+import { apiGet } from '../services/apiClient';
 
 type Locale = 'en' | 'es';
 
@@ -53,17 +54,10 @@ const fallbackMessages: Record<Locale, Record<string, string>> = {
 };
 
 const fetchMessages = async (locale: Locale): Promise<Record<string, string>> => {
-  const binId = locale === 'en'
-    ? import.meta.env.VITE_JSONBIN_EN_BIN_ID
-    : import.meta.env.VITE_JSONBIN_ES_BIN_ID;
-
   try {
-    const response = await fetch(`https://api.jsonbin.io/v3/b/${binId}/latest`, {
-      cache: 'no-cache',
-    });
-    const data = await response.json();
-    const nestedMessages = (data.record?.record || data.record || {}) as Record<string, unknown>;
-    const remoteFlattened = flattenMessages(nestedMessages);
+    const data = await apiGet<unknown>('translations', { locale });
+    const nestedMessages = (data as Record<string, unknown>)?.record ?? data;
+    const remoteFlattened = flattenMessages(nestedMessages as Record<string, unknown>);
     return { ...fallbackMessages[locale], ...remoteFlattened };
   } catch (error) {
     console.error(`Failed to fetch ${locale} messages:`, error);
