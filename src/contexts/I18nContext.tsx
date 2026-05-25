@@ -59,9 +59,6 @@ const fetchMessages = async (locale: Locale): Promise<Record<string, string>> =>
 
   try {
     const response = await fetch(`https://api.jsonbin.io/v3/b/${binId}/latest`, {
-      headers: {
-        'X-Master-Key': import.meta.env.VITE_JSONBIN_MASTER_KEY,
-      },
       cache: 'no-cache',
     });
     const data = await response.json();

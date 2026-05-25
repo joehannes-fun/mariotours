@@ -43,9 +43,6 @@ const normalizeBrandSettings = (input: Partial<BrandSettings> | null | undefined
 export const getBrandSettings = async (): Promise<BrandSettings> => {
   try {
     const response = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BRAND_BIN_ID}/latest`, {
-      headers: {
-        'X-Master-Key': JSONBIN_MASTER_KEY,
-      },
       cache: 'no-cache',
     });
     const data = await response.json();

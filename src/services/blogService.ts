@@ -140,13 +140,8 @@ const fetchDirectBlogArticles = async (binId: string | undefined): Promise<unkno
 
   try {
     console.log('[Blog] Attempting direct JSONBin fetch from bin:', binId);
-    const headers: Record<string, string> = {};
-    if (JSONBIN_MASTER_KEY) {
-      headers['X-Master-Key'] = JSONBIN_MASTER_KEY;
-    }
-
+    // Always perform anonymous GET for public JSONBin bins to avoid CORS preflight failures
     const response = await fetch(`https://api.jsonbin.io/v3/b/${binId}/latest`, {
-      headers,
       cache: 'no-cache',
     });
     if (!response.ok) {

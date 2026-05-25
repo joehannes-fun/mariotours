@@ -205,7 +205,6 @@ const fetchServices = async (
 
   try {
     const response = await fetch(`https://api.jsonbin.io/v3/b/${binId}/latest`, {
-      headers: { 'X-Master-Key': JSONBIN_MASTER_KEY },
       cache: 'no-cache',
     });
 

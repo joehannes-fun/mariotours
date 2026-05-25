@@ -17,8 +17,9 @@ export async function getTransferConfig(): Promise<TransferConfig> {
   }
 
   try {
+    // Avoid sending the master key on anonymous GETs to prevent preflight CORS failures
+    // (JSONBin may block preflight responses when custom headers are present).
     const response = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_TRANSFER_BIN_ID}/latest`, {
-      headers: { 'X-Master-Key': JSONBIN_MASTER_KEY },
       cache: 'no-cache',
     });
 

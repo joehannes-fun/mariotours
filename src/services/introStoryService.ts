@@ -109,9 +109,7 @@ export const getIntroStory = async (locale: JourneyLocale): Promise<StoryData> =
   }
 
   try {
-    const headers: HeadersInit = JSONBIN_MASTER_KEY ? { 'X-Master-Key': JSONBIN_MASTER_KEY } : {};
     const response = await fetch(resolveJsonBinUrl(binOrUrl), {
-      headers,
       cache: 'no-cache',
     });
 

@@ -99,9 +99,7 @@ export const getStoryElements = async (locale: JourneyLocale): Promise<StoryElem
   }
 
   try {
-    const headers: HeadersInit = JSONBIN_MASTER_KEY ? { 'X-Master-Key': JSONBIN_MASTER_KEY } : {};
     const response = await fetch(resolveStoryElementsEndpoint(binOrUrl, true), {
-      headers,
       cache: 'no-cache',
     });
 

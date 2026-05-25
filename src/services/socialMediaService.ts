@@ -35,9 +35,6 @@ export const getSocialMediaData = async () => {
     }
 
     const response = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_SOCIAL_BIN_ID}/latest`, {
-      headers: {
-        'X-Master-Key': JSONBIN_MASTER_KEY,
-      },
       cache: 'no-cache',
     });
 

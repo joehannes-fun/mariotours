@@ -63,7 +63,6 @@ export const getTestimonials = async (): Promise<TestimonialRecord[]> => {
     }
 
     const response = await fetch(resolveJsonBinUrl(JSONBIN_TESTIMONIALS_BIN_ID), {
-      headers: JSONBIN_MASTER_KEY ? { 'X-Master-Key': JSONBIN_MASTER_KEY } : {},
       cache: 'no-cache'
     });
 
