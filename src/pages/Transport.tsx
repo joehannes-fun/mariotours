@@ -294,8 +294,14 @@ const Transport: React.FC = () => {
                       onClear={() => {
                         setOriginAddress('');
                         setOriginLatLng(null);
+                        setForm((prev) => ({ ...prev, originMunicipio: undefined }));
                       }}
                     />
+                    {form.originMunicipio && (
+                      <div className="mt-2 inline-block rounded-full bg-teal-50 px-3 py-1 text-xs font-semibold text-teal-700">
+                        📍 {form.originMunicipio}
+                      </div>
+                    )}
                   </div>
 
                   {priceResult && (
@@ -317,12 +323,15 @@ const Transport: React.FC = () => {
                       onClick={() => {
                         const tmpAddr = originAddress;
                         const tmpLatLng = originLatLng;
+                        const tmpMunicipio = form.originMunicipio;
 
                         setOriginAddress(destAddress);
                         setOriginLatLng(destLatLng);
+                        setForm((prev) => ({ ...prev, originMunicipio: form.destinationMunicipio }));
 
                         setDestAddress(tmpAddr);
                         setDestLatLng(tmpLatLng);
+                        setForm((prev) => ({ ...prev, destinationMunicipio: tmpMunicipio }));
                       }}
                       className="grid h-9 w-9 place-items-center rounded-full bg-slate-100 text-slate-500 transition hover:bg-teal-100 hover:text-teal-600 active:scale-90"
                       aria-label="Swap origin and destination"
@@ -342,8 +351,14 @@ const Transport: React.FC = () => {
                       onClear={() => {
                         setDestAddress('');
                         setDestLatLng(null);
+                        setForm((prev) => ({ ...prev, destinationMunicipio: undefined }));
                       }}
                     />
+                    {form.destinationMunicipio && (
+                      <div className="mt-2 inline-block rounded-full bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-700">
+                        📍 {form.destinationMunicipio}
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -591,9 +606,9 @@ const Transport: React.FC = () => {
                           <span className="font-medium">{priceResult.originLabel}</span>
                         </div>
                         {priceResult.originMunicipio && (
-                          <div className="flex justify-between">
+                          <div className="flex justify-between items-center text-teal-700">
                             <span>📍 <FormattedMessage id="transport.originMunicipio" defaultMessage="Origin municipio" /></span>
-                            <span className="font-medium">{priceResult.originMunicipio}</span>
+                            <span className="font-semibold">{priceResult.originMunicipio}</span>
                           </div>
                         )}
                         <div className="flex justify-between">
@@ -601,9 +616,15 @@ const Transport: React.FC = () => {
                           <span className="font-medium">{priceResult.destinationLabel}</span>
                         </div>
                         {priceResult.destinationMunicipio && (
-                          <div className="flex justify-between">
+                          <div className="flex justify-between items-center text-amber-700">
                             <span>📍 <FormattedMessage id="transport.destMunicipio" defaultMessage="Destination municipio" /></span>
-                            <span className="font-medium">{priceResult.destinationMunicipio}</span>
+                            <span className="font-semibold">{priceResult.destinationMunicipio}</span>
+                          </div>
+                        )}
+                        {priceResult.breakdown.municipioMultiplierApplied && priceResult.breakdown.municipioMultiplierApplied !== 1.0 && (
+                          <div className="flex justify-between items-center rounded-lg bg-teal-50 px-2 py-2 text-teal-700 font-semibold border border-teal-100">
+                            <span>🏘️ <FormattedMessage id="transport.municipioMultiplier" defaultMessage="Municipio multiplier" /></span>
+                            <span className="text-lg">{priceResult.breakdown.municipioMultiplierApplied.toFixed(2)}×</span>
                           </div>
                         )}
                         <div className="flex justify-between">
@@ -624,12 +645,6 @@ const Transport: React.FC = () => {
                           <div className="flex justify-between">
                             <span>🕒 <FormattedMessage id="transport.duration" defaultMessage="Estimated travel time" /></span>
                             <span className="font-medium">{formatDuration(priceResult.durationMinutes)}</span>
-                          </div>
-                        )}
-                        {priceResult.breakdown.municipioMultiplierApplied && priceResult.breakdown.municipioMultiplierApplied !== 1.0 && (
-                          <div className="flex justify-between text-teal-700">
-                            <span>🏘️ <FormattedMessage id="transport.municipioMultiplier" defaultMessage="Municipio multiplier" /></span>
-                            <span className="font-medium">{priceResult.breakdown.municipioMultiplierApplied.toFixed(2)}×</span>
                           </div>
                         )}
                         {routeGeometry && (
