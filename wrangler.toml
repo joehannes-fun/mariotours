@@ -1,0 +1,22 @@
+name = "punta-cana-adventures"
+compatibility_date = "2024-05-01"
+pages_build_output_dir = "dist"
+
+[[kv_namespaces]]
+binding = "DATA_KV"
+id = ""
+preview_id = ""
+
+# ==============================================================================
+# Environment variables (Cloudflare Pages dashboard overrides these in production)
+# ==============================================================================
+#
+# Set these in your Cloudflare Pages dashboard:
+#   Settings → Environment variables → Production
+#
+# All VITE_* variables are also needed as Pages environment variables
+# so they are available to both the Vite build and the Functions runtime.
+#
+# Additionally, set these non-VITE variables:
+#   INIT_DATA_SECRET = "your-secret"
+#   INIT_DATA_URL    = "https://your-project.pages.dev/api/init-data"

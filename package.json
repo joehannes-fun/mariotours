@@ -8,7 +8,8 @@
     "dev": "vite",
     "remotedev": "vite --host",
     "generate-sitemap": "node scripts/generate-sitemap.mjs",
-    "build": "npm run generate-sitemap && vite build && npm run trigger-init-data",
+    "populate-local-data": "node scripts/populate-local-data.mjs",
+    "build": "npm run generate-sitemap && npm run populate-local-data && vite build",
     "init-cloudflare-data": "node scripts/init-cloudflare-data.mjs",
     "trigger-init-data": "node scripts/trigger-init-data.mjs",
     "serve": "vite preview"
