@@ -11,9 +11,12 @@ const RESOURCE_WITH_LOCALE = new Set([
   'translations',
 ]);
 
-const readLocalJson = async (key: string): Promise<unknown | null> => {
+const readLocalJson = async (key: string, requestUrl?: string): Promise<unknown | null> => {
   try {
-    const response = await fetch(new URL(`../data/${key}.json`, import.meta.url).toString());
+    // Data files in public/data/ are served as static assets at /data/{key}.json
+    const origin = requestUrl ? new URL(requestUrl).origin : '';
+    const url = `${origin}/data/${key}.json`;
+    const response = await fetch(url);
     if (!response.ok) {
       return null;
     }
@@ -116,7 +119,7 @@ const jsonBinFetch = async (url: string, masterKey?: string): Promise<unknown | 
   }
 };
 
-const loadStoredData = async (key: string, env: Record<string, any>) => {
+const loadStoredData = async (key: string, env: Record<string, any>, requestUrl?: string) => {
   if (env.DATA_KV && typeof env.DATA_KV.get === 'function') {
     try {
       const stored = await env.DATA_KV.get(key, { type: 'json' });
@@ -128,7 +131,7 @@ const loadStoredData = async (key: string, env: Record<string, any>) => {
     }
   }
 
-  const localData = await readLocalJson(key);
+  const localData = await readLocalJson(key, requestUrl);
   if (localData !== null) {
     return localData;
   }
@@ -179,7 +182,7 @@ export async function onRequest(context: { request: Request; env: Record<string,
 
   try {
     if (request.method === 'GET') {
-      const data = await loadStoredData(key, env);
+      const data = await loadStoredData(key, env, request.url);
       if (data === null || data === undefined) {
         return createErrorResponse(`Data for resource '${resource}' not found.`, 404);
       }
