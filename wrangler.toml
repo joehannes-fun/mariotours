@@ -2,10 +2,12 @@ name = "punta-cana-adventures"
 compatibility_date = "2024-05-01"
 pages_build_output_dir = "dist"
 
-[[kv_namespaces]]
-binding = "DATA_KV"
-id = "dummy"
-preview_id = "dummy"
+# KV namespace binding is configured via Cloudflare Pages dashboard:
+#   Settings → Functions → KV namespace bindings → Add binding
+#   Variable name: DATA_KV
+#   KV namespace: (your KV namespace)
+# Do NOT add [[kv_namespaces]] here — Pages builds validate the IDs
+# and will fail if they are not valid hex strings.
 
 # ==============================================================================
 # Environment variables (Cloudflare Pages dashboard overrides these in production)
