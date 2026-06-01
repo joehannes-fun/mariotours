@@ -243,6 +243,11 @@ export const saveTransportServices = async (services: Tour[], locale: Locale): P
 };
 
 export const uploadImage = async (file: File): Promise<string> => {
+  if (!CLOUDINARY_CLOUD_NAME || !CLOUDINARY_UPLOAD_PRESET) {
+    console.error('Cloudinary not configured: set VITE_CLOUDINARY_CLOUD_NAME and VITE_CLOUDINARY_UPLOAD_PRESET');
+    return 'https://dummyimage.com/600x600/cccccc/000000&text=Upload+Failed';
+  }
+
   const formData = new FormData();
 
   formData.append('file', file);
