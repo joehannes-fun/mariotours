@@ -34,7 +34,6 @@ CLOUDINARY_API_SECRET = "stWvhkCOQi_2Q_Ko0d1it8LXWr8"
 binding = "DATA_KV"
 id = "30a8137910ac4735ad557e9e64e3ee97"
 
-
 [env.production.vars]
 ADMIN_PASSWORD = "toursadmin"
 VITE_ADMIN_PASSWORD = "toursadmin"
