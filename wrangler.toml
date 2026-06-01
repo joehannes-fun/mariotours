@@ -24,15 +24,15 @@ pages_build_output_dir = "dist"
 #   INIT_DATA_URL    = "https://your-project.pages.dev/api/init-data"
 
 [vars]
-ADMIN_PASSWORD = "c@n@rio2690"
-VITE_ADMIN_PASSWORD = "c@n@rio2690"
+ADMIN_PASSWORD = "toursadmin"
+VITE_ADMIN_PASSWORD = "toursadmin"
 CLOUDINARY_CLOUD_NAME = "dkxlhxpe4"
 CLOUDINARY_API_KEY = "896279918126553"
 CLOUDINARY_API_SECRET = "stWvhkCOQi_2Q_Ko0d1it8LXWr8"
 
 [env.production.vars]
-ADMIN_PASSWORD = "c@n@rio2690"
-VITE_ADMIN_PASSWORD = "c@n@rio2690"
+ADMIN_PASSWORD = "toursadmin"
+VITE_ADMIN_PASSWORD = "toursadmin"
 CLOUDINARY_CLOUD_NAME = "dkxlhxpe4"
 CLOUDINARY_API_KEY = "896279918126553"
 CLOUDINARY_API_SECRET = "stWvhkCOQi_2Q_Ko0d1it8LXWr8"
