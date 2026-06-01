@@ -52,11 +52,12 @@ const buildResourceEntries = (env: Record<string, string | undefined>) => {
 };
 
 const saveToKV = async (env: Record<string, any>, key: string, payload: unknown) => {
-  if (!env.DATA_KV || typeof env.DATA_KV.put !== 'function') {
-    throw new Error('DATA_KV namespace binding is not configured. Please bind a Cloudflare KV namespace to DATA_KV.');
+  const dataKV = env.DATA_KV_F ?? env.DATA_KV;
+  if (!dataKV || typeof dataKV.put !== 'function') {
+    throw new Error('DATA_KV_F or DATA_KV namespace binding is not configured. Please bind a Cloudflare KV namespace to DATA_KV_F or DATA_KV.');
   }
 
-  await env.DATA_KV.put(key, JSON.stringify(payload));
+  await dataKV.put(key, JSON.stringify(payload));
 };
 
 export async function onRequest(context: { request: Request; env: Record<string, any> }) {
@@ -76,8 +77,9 @@ export async function onRequest(context: { request: Request; env: Record<string,
     return createErrorResponse('Invalid initialization secret.', 401);
   }
 
-  if (!env.DATA_KV || typeof env.DATA_KV.put !== 'function') {
-    return createErrorResponse('DATA_KV namespace binding is not configured. This initializer requires a Cloudflare KV namespace bound to DATA_KV.', 500);
+  const dataKV = env.DATA_KV_F ?? env.DATA_KV;
+  if (!dataKV || typeof dataKV.put !== 'function') {
+    return createErrorResponse('DATA_KV_F or DATA_KV namespace binding is not configured. This initializer requires a Cloudflare KV namespace bound to DATA_KV_F or DATA_KV.', 500);
   }
 
   const masterKey = env.VITE_JSONBIN_MASTER_KEY;

@@ -121,9 +121,11 @@ const jsonBinFetch = async (url: string, masterKey?: string): Promise<unknown | 
 };
 
 const loadStoredData = async (key: string, env: Record<string, any>, requestUrl?: string) => {
-  if (env.DATA_KV && typeof env.DATA_KV.get === 'function') {
+  // Prefer a site-specific binding `DATA_KV_F` if present, otherwise fall back to `DATA_KV`.
+  const dataKV = env.DATA_KV_F ?? env.DATA_KV;
+  if (dataKV && typeof dataKV.get === 'function') {
     try {
-      const stored = await env.DATA_KV.get(key, { type: 'json' });
+      const stored = await dataKV.get(key, { type: 'json' });
       if (stored !== null) {
         return stored;
       }
@@ -158,9 +160,11 @@ const loadStoredData = async (key: string, env: Record<string, any>, requestUrl?
 };
 
 const saveStoredData = async (key: string, payload: unknown, env: Record<string, any>) => {
-  if (env.DATA_KV && typeof env.DATA_KV.put === 'function') {
+  // Prefer a site-specific binding `DATA_KV_F` if present, otherwise fall back to `DATA_KV`.
+  const dataKV = env.DATA_KV_F ?? env.DATA_KV;
+  if (dataKV && typeof dataKV.put === 'function') {
     try {
-      await env.DATA_KV.put(key, JSON.stringify(payload));
+      await dataKV.put(key, JSON.stringify(payload));
       return;
     } catch (err) {
       console.warn('[Cloudflare Function] KV write failed for', key, err);
