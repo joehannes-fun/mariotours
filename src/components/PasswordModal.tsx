@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { setAdminPassword } from '../services/authStore';
 
 interface PasswordModalProps {
 	onAuthenticate: (authenticated: boolean) => void;
@@ -13,6 +14,8 @@ const PasswordModal: React.FC<PasswordModalProps> = ({ onAuthenticate }) => {
 		e?.preventDefault();
 		const expected = (import.meta.env.VITE_ADMIN_PASSWORD ?? '').toString();
 		if (expected && password === expected) {
+			setAdminPassword(password);
+			setError(null);
 			onAuthenticate(true);
 		} else {
 			setError('Incorrect password');
