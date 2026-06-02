@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { uploadImage, Tour, PricingOption } from '../../services/toursService';
+import MarkdownEditor from '../ui/MarkdownEditor';
 
 type Category = 'tours' | 'transport';
 
@@ -205,17 +206,20 @@ const ServiceAdminPanel: React.FC<ServiceAdminPanelProps> = ({
             placeholder="Cover image path"
             className="rounded-2xl border border-slate-200 px-4 py-3"
           />
-          <textarea
-            value={draft.details.description}
-            onChange={(event) => setDraft({
-              ...draft,
-              description: event.target.value,
-              details: { ...draft.details, description: event.target.value },
-            })}
-            placeholder="Detailed description for the detail view"
-            rows={8}
-            className="rounded-2xl border border-slate-200 px-4 py-3 lg:col-span-2"
-          />
+          <div className="lg:col-span-2">
+            <label className="mb-2 block text-sm font-semibold text-slate-700">
+              Detailed description (supports Markdown formatting)
+            </label>
+            <MarkdownEditor
+              value={draft.details.description}
+              onChange={(val) => setDraft({
+                ...draft,
+                description: val,
+                details: { ...draft.details, description: val },
+              })}
+              height={250}
+            />
+          </div>
         </div>
 
         <div className="mt-6 rounded-3xl border border-slate-200 p-5">
