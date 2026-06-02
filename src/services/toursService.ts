@@ -3,9 +3,6 @@ import { transportServices as staticTransportServices } from '../data/transportS
 import type { TransferRoute } from '../types/transport';
 import { apiGet, apiPut } from './apiClient';
 
-const CLOUDINARY_CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
-const CLOUDINARY_UPLOAD_PRESET = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
-
 type Locale = 'en' | 'es';
 export type ServiceCategory = 'tours' | 'transport';
 
@@ -243,27 +240,20 @@ export const saveTransportServices = async (services: Tour[], locale: Locale): P
 };
 
 export const uploadImage = async (file: File): Promise<string> => {
-  if (!CLOUDINARY_CLOUD_NAME) {
-    console.error('Cloudinary not configured: set VITE_CLOUDINARY_CLOUD_NAME');
-    return 'https://dummyimage.com/600x600/cccccc/000000&text=Upload+Failed';
-  }
-
   const formData = new FormData();
-
   formData.append('file', file);
-  if (CLOUDINARY_UPLOAD_PRESET) {
-    formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
-  }
   formData.append('folder', 'tours');
 
+  const adminPassword = import.meta.env.VITE_ADMIN_PASSWORD ?? 'toursadmin';
+
   try {
-    const response = await fetch(
-      `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`,
-      {
-        method: 'POST',
-        body: formData,
-      }
-    );
+    const response = await fetch('/api/upload', {
+      method: 'POST',
+      headers: {
+        'X-Admin-Password': adminPassword,
+      },
+      body: formData,
+    });
 
     const data = await response.json();
 

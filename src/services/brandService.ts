@@ -58,30 +58,21 @@ export const saveBrandSettings = async (settings: BrandSettings): Promise<void> 
   }
 };
 
-const CLOUDINARY_CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
-const CLOUDINARY_UPLOAD_PRESET = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
-
 export const uploadBrandIcon = async (file: File): Promise<string> => {
-  if (!CLOUDINARY_CLOUD_NAME) {
-    console.error('Cloudinary not configured: set VITE_CLOUDINARY_CLOUD_NAME');
-    return '';
-  }
-
   const formData = new FormData();
   formData.append('file', file);
-  if (CLOUDINARY_UPLOAD_PRESET) {
-    formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
-  }
   formData.append('folder', 'brand-icons');
 
+  const adminPassword = import.meta.env.VITE_ADMIN_PASSWORD ?? 'toursadmin';
+
   try {
-    const response = await fetch(
-      `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`,
-      {
-        method: 'POST',
-        body: formData,
-      }
-    );
+    const response = await fetch('/api/upload', {
+      method: 'POST',
+      headers: {
+        'X-Admin-Password': adminPassword,
+      },
+      body: formData,
+    });
     const data = await response.json();
     if (!data.secure_url) {
       throw new Error('Cloudinary upload failed');

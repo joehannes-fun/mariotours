@@ -36,9 +36,6 @@ export interface StoryElementsData {
   elements: StoryElement[];
 }
 
-const CLOUDINARY_CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
-const CLOUDINARY_UPLOAD_PRESET = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
-
 const unwrapRecord = (payload: unknown): unknown => {
   if (!payload || typeof payload !== 'object') {
     return payload;
@@ -101,8 +98,9 @@ export const createNewElement = (type: StoryElementType, order: number): StoryEl
 export const uploadImage = async (file: File, onProgress?: (percent: number) => void): Promise<string> => {
   const formData = new FormData();
   formData.append('file', file);
-  formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
   formData.append('folder', 'story');
+
+  const adminPassword = import.meta.env.VITE_ADMIN_PASSWORD ?? 'toursadmin';
 
   try {
     const xhr = new XMLHttpRequest();
@@ -132,7 +130,8 @@ export const uploadImage = async (file: File, onProgress?: (percent: number) => 
 
       xhr.onerror = () => reject(new Error('Upload request failed'));
 
-      xhr.open('POST', `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`);
+      xhr.open('POST', '/api/upload');
+      xhr.setRequestHeader('X-Admin-Password', adminPassword);
       xhr.send(formData);
     });
   } catch (error) {

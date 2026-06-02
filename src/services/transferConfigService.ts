@@ -3,9 +3,6 @@ import { DEFAULT_TRANSFER_CONFIG } from '../data/transferDefaults';
 import { DEFAULT_MUNICIPIO_MULTIPLIERS } from '../data/municipioPriceMultipliers';
 import { apiGet, apiPut } from './apiClient';
 
-const CLOUDINARY_CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
-const CLOUDINARY_UPLOAD_PRESET = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
-
 export async function getTransferConfig(): Promise<TransferConfig> {
   try {
     const data = await apiGet<unknown>('transfer-config');
@@ -104,21 +101,20 @@ export async function updateModifiers(config: TransferConfig, newModifiers: Tran
 }
 
 export async function uploadVehicleImage(file: File): Promise<string> {
-  if (!CLOUDINARY_CLOUD_NAME || !CLOUDINARY_UPLOAD_PRESET) {
-    console.error('Cloudinary env vars not set');
-    return '';
-  }
-
   const formData = new FormData();
   formData.append('file', file);
-  formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
   formData.append('folder', 'transport_vehicles');
 
+  const adminPassword = import.meta.env.VITE_ADMIN_PASSWORD ?? 'toursadmin';
+
   try {
-    const response = await fetch(
-      `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`,
-      { method: 'POST', body: formData }
-    );
+    const response = await fetch('/api/upload', {
+      method: 'POST',
+      headers: {
+        'X-Admin-Password': adminPassword,
+      },
+      body: formData,
+    });
     const data = await response.json();
     return data.secure_url || '';
   } catch (error) {
