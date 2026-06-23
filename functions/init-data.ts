@@ -1,36 +1,5 @@
-import fs from "node:fs";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const DATA_DIR = path.resolve(__dirname, "..", "functions", "data");
-
-const createErrorResponse = (message: string, status = 400) =>
-  new Response(JSON.stringify({ error: message }), {
-    status,
-    headers: { "Content-Type": "application/json" },
-  });
-
-const readLocalJson = (filename: string): unknown => {
-  const filePath = path.join(DATA_DIR, filename);
-  const raw = fs.readFileSync(filePath, "utf-8");
-  return JSON.parse(raw);
-};
-
-const saveToKV = async (
-  env: Record<string, any>,
-  key: string,
-  payload: unknown,
-) => {
-  const dataKV = env.DATA_KV_M;
-  if (!dataKV || typeof dataKV.put !== "function") {
-    throw new Error(
-      "DATA_KV_M namespace binding is not configured. Please bind a Cloudflare KV namespace to DATA_KV_M.",
-    );
-  }
-
-  await dataKV.put(key, JSON.stringify(payload));
-};
+// Cloudflare Pages Function to initialize KV data from static JSON files
+// This runs in the Cloudflare Workers runtime, not Node.js
 
 const RESOURCE_ENTRIES = [
   { resource: "brand", filename: "brand.json" },
@@ -40,39 +9,71 @@ const RESOURCE_ENTRIES = [
   {
     resource: "blog",
     locales: ["en", "es"],
-    filenameTemplate: (locale: string) => `blog-${locale}.json`,
+    filenameTemplate: (locale) => `blog-${locale}.json`,
   },
   {
     resource: "tours",
     locales: ["en", "es"],
-    filenameTemplate: (locale: string) => `tours-${locale}.json`,
+    filenameTemplate: (locale) => `tours-${locale}.json`,
   },
   {
     resource: "transport-services",
     locales: ["en", "es"],
-    filenameTemplate: (locale: string) => `transport-services-${locale}.json`,
+    filenameTemplate: (locale) => `transport-services-${locale}.json`,
   },
   {
     resource: "example-tours",
     locales: ["en", "es"],
-    filenameTemplate: (locale: string) => `example-tours-${locale}.json`,
+    filenameTemplate: (locale) => `example-tours-${locale}.json`,
   },
   {
     resource: "story-elements",
     locales: ["en", "es"],
-    filenameTemplate: (locale: string) => `story-elements-${locale}.json`,
+    filenameTemplate: (locale) => `story-elements-${locale}.json`,
   },
   {
     resource: "intro-story",
     locales: ["en", "es"],
-    filenameTemplate: (locale: string) => `intro-story-${locale}.json`,
+    filenameTemplate: (locale) => `intro-story-${locale}.json`,
   },
   {
     resource: "translations",
     locales: ["en", "es"],
-    filenameTemplate: (locale: string) => `translations-${locale}.json`,
+    filenameTemplate: (locale) => `translations-${locale}.json`,
   },
 ];
+
+const createErrorResponse = (message, status = 400) =>
+  new Response(JSON.stringify({ error: message }), {
+    status,
+    headers: { "Content-Type": "application/json" },
+  });
+
+const fetchLocalJson = async (filename, requestUrl) => {
+  try {
+    // Data files in public/data/ are served as static assets at /data/{filename}
+    const origin = requestUrl ? new URL(requestUrl).origin : "";
+    const url = `${origin}/data/${filename}`;
+    const response = await fetch(url);
+    if (!response.ok) {
+      return null;
+    }
+    return await response.json();
+  } catch (err) {
+    console.warn("[Cloudflare Function] Failed to fetch local JSON for", filename, err);
+    return null;
+  }
+};
+
+const saveToKV = async (env, key, payload) => {
+  const dataKV = env.DATA_KV_M;
+  if (!dataKV || typeof dataKV.put !== "function") {
+    throw new Error(
+      "DATA_KV_M namespace binding is not configured. Please bind a Cloudflare KV namespace to DATA_KV_M.",
+    );
+  }
+  await dataKV.put(key, JSON.stringify(payload));
+};
 
 export async function onRequest(context: {
   request: Request;
@@ -110,7 +111,10 @@ export async function onRequest(context: {
   for (const entry of RESOURCE_ENTRIES) {
     try {
       if (entry.filename) {
-        const payload = readLocalJson(entry.filename);
+        const payload = await fetchLocalJson(entry.filename, request.url);
+        if (payload === null) {
+          throw new Error(`Failed to fetch ${entry.filename}`);
+        }
         await saveToKV(env, entry.resource, payload);
         results.push({ key: entry.resource, status: "stored" });
         continue;
@@ -119,7 +123,10 @@ export async function onRequest(context: {
       for (const locale of entry.locales!) {
         const filename = entry.filenameTemplate!(locale);
         const resourceKey = `${entry.resource}-${locale}`;
-        const payload = readLocalJson(filename);
+        const payload = await fetchLocalJson(filename, request.url);
+        if (payload === null) {
+          throw new Error(`Failed to fetch ${filename}`);
+        }
         await saveToKV(env, resourceKey, payload);
         results.push({ key: resourceKey, status: "stored" });
       }
