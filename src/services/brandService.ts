@@ -63,7 +63,7 @@ export const uploadBrandIcon = async (file: File): Promise<string> => {
   formData.append('file', file);
   formData.append('folder', 'brand-icons');
 
-  const adminPassword = import.meta.env.VITE_ADMIN_PASSWORD ?? 'toursadmin';
+  const adminPassword = import.meta.env.VITE_ADMIN_PASSWORD ?? 'mariotours';
 
   try {
     const response = await fetch('/api/upload', {

@@ -100,7 +100,7 @@ export const uploadImage = async (file: File, onProgress?: (percent: number) => 
   formData.append('file', file);
   formData.append('folder', 'story');
 
-  const adminPassword = import.meta.env.VITE_ADMIN_PASSWORD ?? 'toursadmin';
+  const adminPassword = import.meta.env.VITE_ADMIN_PASSWORD ?? 'mariotours';
 
   try {
     const xhr = new XMLHttpRequest();

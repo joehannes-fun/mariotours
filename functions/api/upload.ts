@@ -15,7 +15,7 @@ export async function onRequest(context: { request: Request; env: Record<string,
   }
 
   // Authenticate via admin password header (same as data API)
-  const adminPassword = env.ADMIN_PASSWORD || 'toursadmin';
+  const adminPassword = env.ADMIN_PASSWORD || 'mariotours';
   const providedPassword = request.headers.get('X-Admin-Password') || '';
   if (providedPassword !== adminPassword) {
     return new Response(JSON.stringify({ error: 'Unauthorized' }), {
