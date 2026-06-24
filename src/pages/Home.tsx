@@ -15,7 +15,7 @@ import { getFallbackIntroStory, getIntroStoryPreferred, StoryData } from '../ser
 import { useBlog } from '../contexts/BlogContext';
 
 const HERO_BACKGROUND_IMAGE = '/imgs/tours/tour_saona_island_detail_12.jpg';
-const HERO_BACKGROUND_VIDEO = '/buggy.mp4';
+const HERO_BACKGROUND_VIDEO = '/mariotours.mp4';
 
 const Home: React.FC = () => {
   const { brandSettings } = useBrand();
