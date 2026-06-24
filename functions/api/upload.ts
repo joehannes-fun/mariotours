@@ -1,11 +1,10 @@
 /**
  * Cloudflare Function that proxies image uploads to Cloudinary.
- * Uses the server-side API key and secret set in the Cloudflare Pages
- * environment variables (not exposed to the browser).
+ * Uses unsigned upload presets (no server-side auth needed) or falls back to signed uploads.
  */
 export async function onRequest(context: { request: Request; env: Record<string, any> }) {
   const { request, env } = context;
-
+  
   // Only accept POST
   if (request.method !== 'POST') {
     return new Response(JSON.stringify({ error: 'Method not allowed' }), {
@@ -14,27 +13,9 @@ export async function onRequest(context: { request: Request; env: Record<string,
     });
   }
 
-  // Authenticate via admin password header (same as data API)
-  const adminPassword = env.ADMIN_PASSWORD || 'mariotours';
-  const providedPassword = request.headers.get('X-Admin-Password') || '';
-  if (providedPassword !== adminPassword) {
-    return new Response(JSON.stringify({ error: 'Unauthorized' }), {
-      status: 401,
-      headers: { 'Content-Type': 'application/json' },
-    });
-  }
-
   // Read Cloudinary credentials from environment
-  const cloudName = env.CLOUDINARY_CLOUD_NAME;
-  const apiKey = env.CLOUDINARY_API_KEY;
-  const apiSecret = env.CLOUDINARY_API_SECRET;
-
-  if (!cloudName || !apiKey || !apiSecret) {
-    return new Response(
-      JSON.stringify({ error: 'Cloudinary credentials not configured on server' }),
-      { status: 500, headers: { 'Content-Type': 'application/json' } }
-    );
-  }
+  const cloudName = env.CLOUDINARY_CLOUD_NAME || 'dkxlhxpe4';
+  const uploadPreset = env.CLOUDINARY_UPLOAD_PRESET;
 
   try {
     // Read the multipart form data from the request
@@ -48,39 +29,50 @@ export async function onRequest(context: { request: Request; env: Record<string,
       );
     }
 
-    // Build a signature for Cloudinary signed upload
-    // We use the API key and secret to sign the upload request
     const folder = formData.get('folder')?.toString() || 'brand-icons';
-    const timestamp = Math.round(Date.now() / 1000);
-
-    // Build params for signing
-    const paramsToSign = new URLSearchParams();
-    paramsToSign.set('folder', folder);
-    paramsToSign.set('timestamp', String(timestamp));
-
-    // Create the signature string: sort params alphabetically, join with &, append api_secret
-    const sortedKeys = Array.from(paramsToSign.keys()).sort();
-    const signatureString = sortedKeys
-      .map((k) => `${k}=${paramsToSign.get(k)}`)
-      .join('&') + apiSecret;
-
-    // Encode as SHA-1 hex digest
-    const encoder = new TextEncoder();
-    const signatureBuffer = await crypto.subtle.digest(
-      'SHA-1',
-      encoder.encode(signatureString)
-    );
-    const signature = Array.from(new Uint8Array(signatureBuffer))
-      .map((b) => b.toString(16).padStart(2, '0'))
-      .join('');
 
     // Build the upload form data for Cloudinary
     const cloudinaryForm = new FormData();
     cloudinaryForm.set('file', file);
     cloudinaryForm.set('folder', folder);
-    cloudinaryForm.set('timestamp', String(timestamp));
-    cloudinaryForm.set('api_key', apiKey);
-    cloudinaryForm.set('signature', signature);
+
+    // If upload preset is configured, use unsigned upload (simpler, no auth needed)
+    if (uploadPreset) {
+      cloudinaryForm.set('upload_preset', uploadPreset);
+    } else {
+      // Fallback to signed upload
+      const apiKey = env.CLOUDINARY_API_KEY;
+      const apiSecret = env.CLOUDINARY_API_SECRET;
+
+      if (!apiKey || !apiSecret) {
+        return new Response(
+          JSON.stringify({ error: 'Cloudinary credentials not configured. Please set CLOUDINARY_UPLOAD_PRESET for unsigned uploads or provide API credentials.' }),
+          { status: 500, headers: { 'Content-Type': 'application/json' } }
+        );
+      }
+
+      const timestamp = Math.round(Date.now() / 1000);
+      const paramsToSign = new URLSearchParams();
+      paramsToSign.set('folder', folder);
+      paramsToSign.set('timestamp', String(timestamp));
+
+      // Create signature: sort params, join with &, append api_secret
+      const sortedKeys = Array.from(paramsToSign.keys()).sort();
+      const signatureString = sortedKeys
+        .map((k) => `${k}=${paramsToSign.get(k)}`)
+        .join('&') + apiSecret;
+
+      // SHA-1 hex digest
+      const encoder = new TextEncoder();
+      const signatureBuffer = await crypto.subtle.digest('SHA-1', encoder.encode(signatureString));
+      const signature = Array.from(new Uint8Array(signatureBuffer))
+        .map((b) => b.toString(16).padStart(2, '0'))
+        .join('');
+
+      cloudinaryForm.set('timestamp', String(timestamp));
+      cloudinaryForm.set('api_key', apiKey);
+      cloudinaryForm.set('signature', signature);
+    }
 
     // Upload to Cloudinary
     const uploadUrl = `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`;
@@ -95,7 +87,7 @@ export async function onRequest(context: { request: Request; env: Record<string,
       console.error('[Cloudflare Function] Cloudinary upload failed:', result);
       return new Response(
         JSON.stringify({ error: 'Cloudinary upload failed', details: result }),
-        { status: 500, headers: { 'Content-Type': 'application/json' } }
+        { status: uploadResponse.status, headers: { 'Content-Type': 'application/json' } }
       );
     }
 
