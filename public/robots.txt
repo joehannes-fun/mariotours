@@ -1,4 +1,4 @@
-# robots.txt for Caribbean Tours & Excursions Site
+# robots.txt for Bávaro Tours - Caribbean Tours & Excursions Site
 
 # Allow all search engines to crawl the site
 User-agent: *
@@ -25,4 +25,4 @@ Allow: *.webp
 Crawl-delay: 1
 
 # Sitemap location
-Sitemap: https://ferreras.tours/sitemap.xml
+Sitemap: https://bavaro.tours/sitemap.xml
