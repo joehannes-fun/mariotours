@@ -1,4 +1,4 @@
-const CANONICAL_HOST = 'ferreras.tours';
+const CANONICAL_HOST = 'bavaro.tours';
 const REDIRECT_STATUS = 301; // Permanent redirect for SEO
 
 export async function onRequest(context: { request: Request; next: () => Promise<Response> }) {
