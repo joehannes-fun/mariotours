@@ -36,7 +36,7 @@ const Hero: React.FC<HeroProps> = ({ backgroundImage, backgroundVideo }) => {
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_20%_18%,rgba(255,255,255,.18),transparent_22%),radial-gradient(circle_at_88%_80%,rgba(20,184,166,.18),transparent_30%)]" />
 
       <div className="section-shell flex min-h-[86vh] items-center py-24 md:py-28">
-        <div className="hero-glass max-w-3xl p-7 md:p-12 bg-white/50 backdrop-blur-md">
+        <div className="hero-glass max-w-3xl p-7 md:p-12 bg-white/50 backdrop-blur-md" style={{ backgroundColor: 'rgba(255, 253, 240, 0.50)', backdropFilter: 'blur(12px)' }}>
           <p className="mb-4 text-sm font-bold uppercase text-teal-900">
             Bavaro · Punta Cana · Dominican Republic
           </p>

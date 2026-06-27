@@ -203,6 +203,8 @@ button {
 }
 
 .menu-logo-icon {
+  position: fixed;
+  z-index: 9999;
   box-shadow: 0 8px 32px rgba(139, 69, 19, 0.25);
   transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
@@ -214,11 +216,13 @@ button {
 
 .menu-logo-icon img {
   opacity: 0.75;
-  transition: opacity 0.3s ease;
+  filter: drop-shadow(0 4px 8px rgba(139, 69, 19, 0.3));
+  transition: opacity 0.3s ease, filter 0.3s ease;
 }
 
 .menu-logo-icon:hover img {
   opacity: 0.75;
+  filter: drop-shadow(0 8px 16px rgba(139, 69, 19, 0.4));
 }
 
 .shore-section {

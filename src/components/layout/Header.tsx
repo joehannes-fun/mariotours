@@ -11,7 +11,7 @@ const Header: React.FC = () => {
   const { brandSettings } = useBrand();
 
   return (
-    <header className="sticky top-0 z-50 overflow-visible border-b border-white/30 bg-white/30 shadow-[0_8px_32px_rgba(8,42,62,.15)] backdrop-blur-xl">
+    <header className="sticky top-0 z-50 overflow-visible border-b border-white/30 bg-white/30 shadow-[0_8px_32px_rgba(8,42,62,.15)] backdrop-blur-xl" style={{ backgroundColor: 'rgba(255, 255, 255, 0.50)', backdropFilter: 'blur(12px)' }}>
       <div className="section-shell flex items-center justify-between py-4 pl-[7.25rem] sm:pl-[7.75rem] lg:pl-8">
         <Link to="/#top" className="group flex items-center gap-3">
           <div className="menu-logo-icon fixed left-4 top-2 flex h-[6.125rem] w-[6.125rem] items-center justify-center rounded-full bg-gradient-to-br from-white/80 to-cyan-50/60 shadow-[0_0_30px_rgba(251,146,60,0.95),0_0_60px_rgba(251,146,60,0.6),0_0_100px_rgba(251,146,60,0.3)] ring-1 ring-white/40 overflow-hidden backdrop-blur-md sm:left-6 lg:left-[max(2rem,calc((100vw-80rem)/2+2rem))]">
