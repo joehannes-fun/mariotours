@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=Raleway:wght@300;400;500;600;700;800;900&family=Montserrat:wght@400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Cinzel:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800;900&family=Raleway:wght@300;400;500;600;700;800;900&family=Montserrat:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&family=Dancing+Script:wght@400;500;600;700&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -14,6 +14,9 @@
   --palm-green: #2d5016;
   --western-bronze: #cd7f32;
   --dominican-amber: #ffbf00;
+  --tropical-light: #fff8f0;
+  --tropical-cream: #ffefeb;
+  --tropical-peach: #ffe5d9;
   --card: rgba(255, 253, 240, 0.92);
 }
 
@@ -22,12 +25,12 @@
 }
 
 html {
-  background: linear-gradient(180deg, #fff8e7 0%, #ffefd5 45%, #e8f4f8 100%);
+  background: linear-gradient(180deg, #fff8f0 0%, #ffefeb 30%, #ffe5d9 60%, #e8f4f8 100%);
 }
 
 body {
   min-height: 100vh;
-  font-family: "Raleway", "Montserrat", sans-serif;
+  font-family: "Inter", "Raleway", sans-serif;
   color: #2c1810;
   background-image:
     radial-gradient(
@@ -47,8 +50,9 @@ body {
     ),
     linear-gradient(
       180deg,
-      rgba(255, 248, 231, 1) 0%,
-      rgba(255, 239, 213, 1) 45%,
+      rgba(255, 248, 240, 1) 0%,
+      rgba(255, 239, 235, 1) 30%,
+      rgba(255, 229, 217, 1) 60%,
       rgba(232, 244, 248, 1) 100%
     );
   background-repeat: no-repeat;
@@ -105,11 +109,15 @@ h3,
 h4,
 h5,
 h6,
-.font-lobster {
-  font-family: "Cinzel", "Raleway", serif;
+.font-heading {
+  font-family: "Playfair Display", "Cinzel", Georgia, serif;
   letter-spacing: 0.02em;
   color: #2c1810;
   font-weight: 700;
+}
+
+.font-script {
+  font-family: "Dancing Script", cursive;
 }
 
 a {
@@ -702,4 +710,124 @@ a:hover::after {
   .parallax-wash {
     animation: none;
   }
+}
+
+/* SVG Decorative Shapes */
+.svg-wave-divider {
+  width: 100%;
+  height: 60px;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1200 60' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,30 C200,10 400,50 600,30 C800,10 1000,50 1200,30 L1200,60 L0,60 Z' fill='rgba(255,248,240,0.9)'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-size: cover;
+  margin: 2rem 0;
+}
+
+.svg-leaf-pattern {
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23cd7f32' fill-opacity='0.08'%3E%3Cpath d='M30 30c-5.5 0-10-4.5-10-10S24.5 10 30 10s10 4.5 10 10-4.5 10-10 10zm0-18c-4.4 0-8 3.6-8 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+.svg-palm-accent {
+  position: relative;
+}
+
+.svg-palm-accent::before {
+  content: "";
+  position: absolute;
+  top: -20px;
+  right: -20px;
+  width: 80px;
+  height: 80px;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 50 Q60 20 80 10 Q90 30 80 50 Q90 70 70 80 Q50 90 50 50 Z' fill='rgba(45,80,22,0.1)'/%3E%3Cpath d='M50 50 Q40 20 20 10 Q10 30 20 50 Q10 70 30 80 Q50 90 50 50 Z' fill='rgba(45,80,22,0.08)'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 0.6;
+}
+
+.svg-sunburst {
+  background-image: radial-gradient(circle at center, rgba(255,215,0,0.15) 0%, transparent 70%);
+  position: relative;
+}
+
+.svg-sunburst::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='rgba(255,215,0,0.1)' stroke-width='1'%3E%3Cline x1='100' y1='20' x2='100' y2='180'/%3E%3Cline x1='100' y1='20' x2='100' y2='180' transform='rotate(30 100 100)'/%3E%3Cline x1='100' y1='20' x2='100' y2='180' transform='rotate(60 100 100)'/%3E%3Cline x1='100' y1='20' x2='100' y2='180' transform='rotate(90 100 100)'/%3E%3Cline x1='100' y1='20' x2='100' y2='180' transform='rotate(120 100 100)'/%3E%3Cline x1='100' y1='20' x2='100' y2='180' transform='rotate(150 100 100)'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  background-position: center;
+  background-repeat: repeat;
+  opacity: 0.3;
+}
+
+/* Rounded Shape Variations */
+.rounded-soft {
+  border-radius: 20px 20px 20px 20px;
+}
+
+.rounded-wave {
+  border-radius: 20px 20px 10px 10px;
+}
+
+.rounded-blob {
+  border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+  transition: border-radius 0.5s ease;
+}
+
+.rounded-blob:hover {
+  border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+}
+
+/* Enhanced Spacing Utilities */
+.section-relaxed {
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+}
+
+@media (min-width: 768px) {
+  .section-relaxed {
+    padding-top: 8rem;
+    padding-bottom: 8rem;
+  }
+}
+
+/* Tropical Card Styles */
+.tropical-card {
+  background: linear-gradient(145deg, rgba(255,255,255,0.9), rgba(255,248,240,0.85));
+  border: 2px solid rgba(205,127,50,0.2);
+  border-radius: 24px;
+  box-shadow: 
+    0 20px 60px rgba(139,69,19,0.12),
+    0 0 0 1px rgba(255,255,255,0.5) inset;
+  backdrop-filter: blur(16px);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.tropical-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 
+    0 32px 80px rgba(139,69,19,0.18),
+    0 0 0 1px rgba(255,255,255,0.7) inset;
+  border-color: rgba(205,127,50,0.35);
+}
+
+/* Gradient Text */
+.gradient-text-coral {
+  background: linear-gradient(135deg, #ff6b4a, #ff8c42);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-ocean {
+  background: linear-gradient(135deg, #006994, #40e0d0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-gold {
+  background: linear-gradient(135deg, #f4c430, #ffbf00);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
