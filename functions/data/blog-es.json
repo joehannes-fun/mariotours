@@ -1,5 +1,45 @@
 [
   {
+    "id": "zipline-anamuya-skyline",
+    "title": "El Viaje de Mi Vida: Volando a 400 Pies Sobre el Bosque de Anamuya",
+    "tour": "Zip Line Canopy Thrill Ride",
+    "slug": "zipline-anamuya-skyline-adventure",
+    "date": "2026-07-28",
+    "post": "Mi esposo Dave y yo vinimos a Punta Cana desde Austin, Texas para celebrar nuestro quinto aniversario. Nos encantaba la piscina del resort, pero el tercer día lo acordamos: necesitábamos adrenalina real. Reservar la tirolesa Zip Line Canopy Thrill Ride con Mario Tours fue la mejor decisión de nuestras vacaciones.\n\nEl camión safari nos recogió temprano y serpenteó por hermosos caminos de montaña hacia la cordillera de Anamuya. Cuando nos paramos en la primera plataforma de lanzamiento de madera a 400 pies sobre el valle, mi corazón latía a mil. Pero los guías —Juan y Luis— fueron increíbles. Revisaron doblemente nuestros arneses, bromearon en inglés perfecto y nos hicieron sentir 100% seguros.\n\nLuego llegó el cable 6: un tramo masivo de 2,600 pies sobre un desfiladero abierto. Lanzarse de esa plataforma fue pura magia. Volar por el cálido aire de la montaña con la exuberante selva debajo y el océano distante brillando en el horizonte es un recuerdo que guardaré para siempre.\n\nDespués del último cable, nos relajamos en el campamento base con piña fresca y agua de coco helada directo de la fruta. Si quieres un descanso de la playa y una descarga de adrenalina inolvidable, ¡no te lo pierdas!"
+  },
+  {
+    "id": "samana-whales-limon-waterfall",
+    "title": "Ballenas, Cascadas y Magia Salvaje: Nuestro Inolvidable Día en Samaná",
+    "tour": "Samaná Sanctuary & El Limón Waterfall",
+    "slug": "samana-whales-limon-waterfall-journey",
+    "date": "2026-07-25",
+    "post": "Como fotógrafo de vida silvestre de Seattle, he viajado a muchos destinos increíbles, pero la Bahía de Samaná nos regaló un día de pura magia sin filtros.\n\nNuestra mañana comenzó con una excursión en barco hacia el santuario marino protegido de la Bahía de Samaná. A los 20 minutos de salir del muelle, nuestro capitán apagó los motores. Una ballena jorobada madre de 40 toneladas y su cría salieron a la superficie a menos de cincuenta yardas de nuestro barco. Ver a semejante criatura saltar fuera del agua mientras su bebé jugaba a su lado es algo que ninguna cámara puede capturar por completo.\n\nDesde la bahía, nos adentramos en tierra firme hacia la legendaria Cascada El Limón. Cabalgar en dóciles caballos dominicanos guiados por caballeros locales a través de senderos de selva tropical se sintió como estar en una película de aventuras. El rugido del agua anunció la cascada de 170 pies cayendo sobre una piscina esmeralda.\n\nNos zambullimos en la piscina natural debajo de la cascada. Después, disfrutamos de un almuerzo tradicional dominicano de pescado frito, arroz con coco y plátanos maduros en una palapa de campo. Samaná es auténtica, deslumbrante y pura vida."
+  },
+  {
+    "id": "cabeza-de-toro-reef-diving",
+    "title": "Cara a Cara con Mantarrayas y Tiburones Nodriza: Buceo en Bávaro",
+    "tour": "Cabeza de Toro Reef & Marine Sanctuary",
+    "slug": "cabeza-de-toro-reef-scuba-experience",
+    "date": "2026-07-20",
+    "post": "Soy buceadora certificada de Denver, CO, por lo que cada vez que viajo cerca de aguas tropicales, sumergirme es obligatorio. El tour de buceo en el arrecife Cabeza de Toro con Mario Tours superó todas mis expectativas.\n\nNuestro barco de buceo salió de la playa de Bávaro en una mañana soleada. El instructor nos dio una charla de seguridad muy clara y nos ayudó a revisar todo el equipo. Tan pronto como descendimos al arrecife principal a 40 pies, quedamos sumergidos en una explosión de vida marina.\n\nLos jardines de coral estaban prósperos: abanicos de mar morados balanceándose en la corriente y colonias de coral cerebro. En diez minutos, dos tranquilos tiburones nodriza se deslizaron con gracia sobre el fondo de arena junto a nuestro grupo. Más adelante, una enorme mantarraya emergió de la arena y voló sobre nosotros como un ave acuática.\n\nLa visibilidad era increíble de 70 pies y la temperatura del agua era idónea. Salimos a la superficie con enormes sonrisas. Ya seas un buzo experimentado o quieras probar un bautismo de buceo, Cabeza de Toro es una joya del Caribe."
+  },
+  {
+    "id": "sunset-catamaran-golden-hour",
+    "title": "Hora Dorada en el Agua: Por Qué el Crucero al Atardecer de Bávaro me Cautivó",
+    "tour": "Golden Hour Sunset Catamaran & Cocktail Cruise",
+    "slug": "sunset-catamaran-golden-hour-bavaro",
+    "date": "2026-07-16",
+    "post": "Mis tres mejores amigas y yo vinimos desde Chicago para un viaje de chicas para celebrar los 30 años de mi amiga Chloe. Queríamos algo especial para nuestra última noche, así que reservamos el crucero en catamarán al atardecer.\n\nDesde el momento en que subimos a la espaciosa cubierta, el ambiente fue inmejorable. La tripulación nos dio la bienvenida con cócteles artesanales de Mamajuana y vino helado. A medida que el catamarán se deslizaba por la costa de Bávaro, el sol comenzó a bajar hacia el horizonte, pintando el cielo de coral, ámbar y violeta profundo.\n\nAnclamos en la famosa Piscina Natural justo cuando la luz dorada alcanzó su punto máximo. Estar de pie en el agua tibia y cristalina con una bebida fría mientras la música tropical sonaba fue pura euforia. El fotógrafo a bordo nos tomó fotos grupales al atardecer espectaculares.\n\nEn la navegación de regreso, la tripulación nos enseñó a bailar Bachata en la cubierta bajo las estrellas. Fue divertido, festivo y el punto culminante del viaje de nuestro grupo."
+  },
+  {
+    "id": "terra-cross-buggy-extreme",
+    "title": "Llenos de Lodo y Encantados: Safari Extremo en Buggy 4x4 en Punta Cana",
+    "tour": "Terra Cross 4x4 Buggy & Hidden Cave Cenote",
+    "slug": "terra-cross-buggy-extreme-cenote",
+    "date": "2026-07-12",
+    "post": "Mi hermano Kevin y yo crecimos en Boston montando motos de monte, así que cuando vimos la excursión Terra Cross Buggy 4x4 en Mario Tours, nos inscribimos antes de desempacar las maletas.\n\n¡Un consejo: deja tus tenis blancos en el hotel! Nos equipamos con pañuelos, gafas y arneses en nuestros buggies con jaula antivuelco, y aceleramos hacia el interior de la isla. Los senderos eran una mezcla salvaje de tierra roja, lechos de ríos rocosos y profundos charcos de lodo que atravesamos a toda velocidad.\n\nDespués de una hora de conducción intensa, llegamos a un cenote subterráneo de piedra caliza. Bajar a nadar en el agua fresca de la caverna para lavarnos el barro se sintió increíble. Nadar en ese manantial subterráneo con la luz del sol filtrándose entre las raíces de las cuevas fue fascinante.\n\nNuestra última parada fue la Playa Macao, donde pudimos acelerar los buggies por senderos entre palmeras mientras veíamos las olas romper en la orilla. Si no le tienes miedo a un poco de lodo y quieres diversión pura, este tour en buggy 4x4 es un 10 de 10."
+  },
+  {
     "id": "saona-island-paradise",
     "title": "El Día Que Encontré el Paraíso: Mi Aventura en Isla Saona",
     "tour": "Isla Saona: El Paraíso Caribeño",
