@@ -5,6 +5,26 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        tropicalGreen: '#2BB673',
+        tropicalBlue: '#0095D9',
+        sandyBeige: '#F4E1B1',
+        sunsetOrange: '#FF6F20',
+        oceanWave: '#007BFF',
+        luxury: {
+          navy: '#04131D',
+          dark: '#061D2B',
+          deep: '#0A2B3D',
+          turquoise: '#0D9488',
+          cyan: '#06B6D4',
+          sand: '#FAF7F2',
+          sandDark: '#F4EFE6',
+          sandWarm: '#E8DFC8',
+          gold: '#D97706',
+          amber: '#EAB308',
+          coral: '#E15B45',
+          fog: '#F1F5F9',
+          muted: '#64748B',
+        },
         caribbean: {
           rum: '#8B4513',
           tobacco: '#6B5D2E',
@@ -52,11 +72,20 @@ module.exports = {
         'tropical-glow': 'conic-gradient(from 60deg, rgba(255, 107, 74, 0.7), rgba(244, 196, 48, 0.6), rgba(64, 224, 208, 0.55), rgba(0, 105, 148, 0.5), rgba(255, 107, 74, 0.7))',
         'tropical-paradise': 'linear-gradient(135deg, #FFF8F0 0%, #FFEFEB 25%, #FFE5D9 50%, #FFD4BE 75%, #FFB7C5 100%)',
         'ocean-breeze': 'linear-gradient(135deg, #E8F4F8 0%, #D4E8F2 35%, #D4F0E8 65%, #E8F8F0 100%)',
+        'luxury-hero': 'linear-gradient(180deg, rgba(4,19,29,0.75) 0%, rgba(6,29,43,0.85) 60%, rgba(4,19,29,0.98) 100%)',
+        'luxury-gradient': 'linear-gradient(135deg, #0A2B3D 0%, #061D2B 50%, #04131D 100%)',
+        'gold-shimmer': 'linear-gradient(135deg, #D97706 0%, #F59E0B 50%, #EAB308 100%)',
       },
       boxShadow: {
         'caribbean': '0 28px 72px rgba(139, 69, 19, 0.18), 0 8px 20px rgba(255, 107, 74, 0.1)',
         'western': '0 24px 64px rgba(139, 69, 19, 0.16), 0 8px 20px rgba(255, 107, 74, 0.1)',
         'tropical': '0 32px 80px rgba(139, 69, 19, 0.18), 0 8px 24px rgba(255, 107, 74, 0.12)',
+        'luxury-sm': '0 4px 20px -2px rgba(4, 19, 29, 0.06)',
+        'luxury': '0 12px 40px -4px rgba(4, 19, 29, 0.08), 0 4px 12px -2px rgba(4, 19, 29, 0.04)',
+        'luxury-hover': '0 24px 60px -8px rgba(4, 19, 29, 0.16), 0 8px 24px -4px rgba(13, 148, 136, 0.12)',
+        'glass': '0 8px 32px 0 rgba(4, 19, 29, 0.08)',
+        'glass-hover': '0 16px 48px 0 rgba(4, 19, 29, 0.15)',
+        'glow-teal': '0 0 40px rgba(13, 148, 136, 0.25)',
         'glow-coral': '0 0 60px rgba(255, 107, 74, 0.3)',
         'glow-gold': '0 0 80px rgba(244, 196, 48, 0.25)',
         'soft': '0 4px 20px rgba(0, 0, 0, 0.08)',
@@ -82,10 +111,12 @@ module.exports = {
       },
       animation: {
         'rotate-wash': 'rotateWash 30s linear infinite',
-        'shimmer': 'shimmer 2s linear infinite',
+        'shimmer': 'shimmer 2.5s ease-in-out infinite',
         'float': 'float 6s ease-in-out infinite',
         'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
         'bounce-slow': 'bounce 3s infinite',
+        'fade-in': 'fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+        'slide-up': 'slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
       },
       keyframes: {
         rotateWash: {
@@ -93,12 +124,20 @@ module.exports = {
           to: { transform: 'rotate(360deg)' },
         },
         shimmer: {
-          from: { left: '-100%' },
-          to: { left: '100%' },
+          '0%': { transform: 'translateX(-100%)' },
+          '100%': { transform: 'translateX(100%)' },
         },
         float: {
           '0%, 100%': { transform: 'translateY(0)' },
           '50%': { transform: 'translateY(-20px)' },
+        },
+        fadeIn: {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
+        slideUp: {
+          '0%': { opacity: '0', transform: 'translateY(20px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
         },
       },
       maxWidth: {

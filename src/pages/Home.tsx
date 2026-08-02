@@ -7,12 +7,14 @@ import AdventureCard from '../components/AdventureCard';
 import TestimonialDisplay from '../components/TestimonialDisplay';
 import SocialMediaVideos from '../components/SocialMediaVideos';
 import FABWhatsApp from '../components/FABWhatsApp';
+import SeaWaveDivider from '../components/ui/SeaWaveDivider';
 import { useBrand } from '../contexts/BrandContext';
 import { useI18n } from '../contexts/I18nContext';
 import { generateWhatsAppMessage } from '../utils/whatsapp';
 import { generateBlogListStructuredData } from '../utils/seoHelpers';
-import { getFallbackIntroStory, getIntroStoryPreferred, StoryData } from '../services/introStoryService';
+import { getIntroStoryPreferred, StoryData } from '../services/introStoryService';
 import { useBlog } from '../contexts/BlogContext';
+import { playClickFx, playHoverFx } from '../lib/soundEngine';
 
 const HERO_BACKGROUND_IMAGE = '/imgs/tours/tour_saona_island_detail_12.jpg';
 const HERO_BACKGROUND_VIDEO = '/mariotours.mp4';
@@ -128,8 +130,8 @@ const Home: React.FC = () => {
                     {/* Adventure cards grid */}
                     {section.adventures && (
                       <div className="grid gap-7 md:grid-cols-3 lg:gap-8">
-                        {section.adventures.map((adventure) => (
-                          <AdventureCard key={adventure.id} adventure={adventure} />
+                        {section.adventures.map((adventure, idx) => (
+                          <AdventureCard key={adventure.id} adventure={adventure} index={idx} />
                         ))}
                       </div>
                     )}
@@ -159,7 +161,9 @@ const Home: React.FC = () => {
         )}
       </div>
 
-      {/* Call-to-Action Banner: prefer dynamic CTAs from storyData.callToActions */}
+      <SeaWaveDivider variant="swell" colorClass="text-[#004e64]" />
+
+      {/* Call-to-Action Banner */}
       {!storyData ? null : storyData.callToActions && storyData.callToActions.length > 0 ? (
         <section className="home-section sunset-section px-4 py-20 text-white sm:py-24 md:px-8">
           <div className="max-w-4xl mx-auto text-center">
@@ -175,14 +179,16 @@ const Home: React.FC = () => {
               {storyData.callToActions.map((cta, i) => (
                 <button
                   key={`${cta.text}-${i}`}
+                  onMouseEnter={() => playHoverFx()}
                   onClick={() => {
+                    playClickFx();
                     if (cta.target?.startsWith('http')) {
                       window.open(cta.target, '_blank');
                     } else {
                       navigate(cta.target || '/');
                     }
                   }}
-                  className="px-8 py-4 bg-white text-pink-600 font-bold rounded-lg hover:shadow-xl transition-all hover:scale-105"
+                  className="tropical-button"
                 >
                   {cta.text}
                 </button>
@@ -201,22 +207,28 @@ const Home: React.FC = () => {
             </p>
             <div className="flex flex-col justify-center gap-4 sm:flex-row">
               <button
-                onClick={() =>
+                onMouseEnter={() => playHoverFx()}
+                onClick={() => {
+                  playClickFx();
                   window.open(
                     generateWhatsAppMessage(
                       brandSettings.phoneNumber,
                       'Hola! Me gustaría información sobre sus tours.'
                     ),
                     '_blank'
-                  )
-                }
-                className="px-8 py-4 bg-white text-pink-600 font-bold rounded-lg hover:shadow-xl transition-all hover:scale-105"
+                  );
+                }}
+                className="tropical-button"
               >
                 Chat on WhatsApp
               </button>
               <button
-                onClick={() => navigate('/tours')}
-                className="px-8 py-4 bg-white/20 border-2 border-white text-white font-bold rounded-lg hover:bg-white/30 transition-all"
+                onMouseEnter={() => playHoverFx()}
+                onClick={() => {
+                  playClickFx();
+                  navigate('/tours');
+                }}
+                className="tropical-button-outline text-white border-white hover:bg-white/20"
               >
                 View Adventures
               </button>
@@ -225,8 +237,12 @@ const Home: React.FC = () => {
         </section>
       )}
 
+      <SeaWaveDivider variant="foam" colorClass="text-[#04131D]/40" />
+
       {/* Testimonials Section */}
       <TestimonialDisplay locale={locale} />
+
+      <SeaWaveDivider variant="tide" colorClass="text-[#004e64]" />
 
       {/* Why Choose Us Section - Enhanced */}
       <section className="home-section reef-section px-4 py-20 text-white sm:py-24 md:px-8">
@@ -240,7 +256,7 @@ const Home: React.FC = () => {
 
           <div className="grid gap-6 md:grid-cols-3 lg:gap-8">
             {/* Safety First */}
-            <div className="home-feature-card group p-8">
+            <div onMouseEnter={() => playHoverFx()} className="home-feature-card group p-8 animate-wave-sway-1">
               <div className="text-5xl mb-4">🛡️</div>
               <h3 className="text-2xl font-bold mb-3">
                 <FormattedMessage id="features.safety.title" />
@@ -251,7 +267,7 @@ const Home: React.FC = () => {
             </div>
 
             {/* Curated Experiences */}
-            <div className="home-feature-card group p-8">
+            <div onMouseEnter={() => playHoverFx()} className="home-feature-card group p-8 animate-wave-sway-2">
               <div className="text-5xl mb-4">🌿</div>
               <h3 className="text-2xl font-bold mb-3">
                 <FormattedMessage id="features.experiences.title" />
@@ -262,7 +278,7 @@ const Home: React.FC = () => {
             </div>
 
             {/* Transportation */}
-            <div className="home-feature-card group p-8">
+            <div onMouseEnter={() => playHoverFx()} className="home-feature-card group p-8 animate-wave-sway-3">
               <div className="text-5xl mb-4">🚗</div>
               <h3 className="text-2xl font-bold mb-3">
                 <FormattedMessage id="features.transportation.title" />
@@ -274,6 +290,8 @@ const Home: React.FC = () => {
           </div>
         </div>
       </section>
+
+      <SeaWaveDivider variant="deep-crest" colorClass="text-[#04131D]" />
 
       {/* Final CTA Section */}
       <section className="home-section dawn-section relative overflow-hidden px-4 py-20 sm:py-24 md:px-8">
@@ -287,26 +305,28 @@ const Home: React.FC = () => {
             Step into warm water, fresh air, local flavor, and a day that stays with you.
           </p>
           <button
-            onClick={() =>
+            onMouseEnter={() => playHoverFx()}
+            onClick={() => {
+              playClickFx();
               window.open(
                 generateWhatsAppMessage(
                   brandSettings.phoneNumber,
                   'Hola! Quiero hacer una reserva. ¿Cuáles son mis opciones?'
                 ),
                 '_blank'
-              )
-            }
-            className="px-10 py-4 bg-gradient-to-r from-pink-500 to-orange-500 text-white font-bold text-lg rounded-lg hover:shadow-2xl transition-all hover:scale-105 inline-block"
+              );
+            }}
+            className="tropical-button"
           >
             Book Your Adventure Now
           </button>
         </div>
       </section>
 
-      {/* Social Media Videos Section - Only shows if videos exist */}
+      {/* Social Media Videos Section */}
       <SocialMediaVideos />
 
-      {/* SEO: Hidden blog articles for search engine indexing */}
+      {/* SEO: Hidden blog articles */}
       <div className="hidden h-0 w-0 overflow-hidden">
         {blogArticles[locale]?.map((article) => (
           <article key={article.id} data-article-id={article.slug}>
