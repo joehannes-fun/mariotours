@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
+import SeaWaveDivider from './ui/SeaWaveDivider';
 
 interface StorySectionProps {
   id: string;
@@ -12,6 +13,8 @@ interface StorySectionProps {
   mood?: string;
   isAlternate?: boolean;
   themeName?: string;
+  dividerVariant?: 'crest' | 'deep-crest' | 'swell' | 'tall-swell' | 'tide' | 'foam' | 'layered-wave' | 'layered-swell';
+  nextThemeColor?: string;
 }
 
 const StorySection: React.FC<StorySectionProps> = ({
@@ -26,6 +29,8 @@ const StorySection: React.FC<StorySectionProps> = ({
   mood,
   isAlternate = false,
   themeName,
+  dividerVariant,
+  nextThemeColor,
 }) => {
   const [isMobile, setIsMobile] = useState(false);
   const [isInView, setIsInView] = useState(false);
@@ -125,7 +130,7 @@ const StorySection: React.FC<StorySectionProps> = ({
         className={`parallax-wash ${isAlternate ? 'parallax-wash-left' : 'parallax-wash-right'}`}
       />
 
-      <div className="relative z-10 max-w-6xl mx-auto">
+      <div className="relative z-10 max-w-6xl mx-auto pb-10">
         {/* Header with emoji and title */}
         <div className={`mb-10 text-center sm:mb-12 ${isAlternate ? 'md:text-right' : 'md:text-left'}`}>
           {emoji && <div className={`section-icon mb-5 ${isAlternate ? 'md:ml-auto md:mr-0' : 'md:mr-auto md:ml-0'}`}>{emoji}</div>}
@@ -248,12 +253,12 @@ const StorySection: React.FC<StorySectionProps> = ({
         </div>
       </div>
 
-      {/* Elegant Tropical Wave Separator */}
-      <div className="absolute bottom-0 left-0 w-full flex justify-center pb-6 opacity-30 text-teal-900 pointer-events-none">
-        <svg width="120" height="24" viewBox="0 0 120 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M0 12C30 12 30 0 60 0C90 0 90 12 120 12" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M0 24C30 24 30 12 60 12C90 12 90 24 120 24" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" opacity="0.4"/>
-        </svg>
+      {/* Organic Bottom Wave Divider replacing linear edges everywhere */}
+      <div className="absolute bottom-0 inset-x-0 z-20 pointer-events-none -mb-1">
+        <SeaWaveDivider
+          variant={dividerVariant || (isAlternate ? 'layered-wave' : 'layered-swell')}
+          colorClass={nextThemeColor || (isAlternate ? 'text-[#0e445c]/25' : 'text-[#061d2b]/20')}
+        />
       </div>
     </section>
   );

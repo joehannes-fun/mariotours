@@ -91,7 +91,7 @@ const Home: React.FC = () => {
         </section>
       )}
 
-      {/* Story Narrative Sections */}
+      {/* Story Narrative & Feature Sections */}
       <div className="space-y-0 min-h-[50vh]">
         {!storyData ? (
           <section className="home-section shore-section py-32 flex justify-center items-center">
@@ -105,42 +105,49 @@ const Home: React.FC = () => {
             if (section.id === 'adventure_preview') {
               // Adventure preview section with cards
               return (
-                <section
-                  key={section.id}
-                  id={section.id}
-                  className="home-section lagoon-section relative overflow-hidden px-4 py-24 sm:py-28 md:px-8 lg:py-32"
-                >
-                  <div className="parallax-wash parallax-wash-left" />
-                  <div className="parallax-wash parallax-wash-right" />
+                <div key={section.id} className="relative">
+                  <SeaWaveDivider variant="layered-wave" colorClass="text-[#0e445c]/35" flip />
+                  <section
+                    id={section.id}
+                    className="home-section lagoon-section relative overflow-hidden px-4 py-24 sm:py-28 md:px-8 lg:py-32"
+                  >
+                    <div className="parallax-wash parallax-wash-left" />
+                    <div className="parallax-wash parallax-wash-right" />
 
-                  <div className="relative z-10 max-w-6xl mx-auto">
-                    {/* Header */}
-                    <div className="mx-auto mb-12 max-w-3xl text-center sm:mb-16">
-                      <div className="section-icon mx-auto mb-5">
-                        {section.emoji}
+                    <div className="relative z-10 max-w-6xl mx-auto">
+                      {/* Header */}
+                      <div className="mx-auto mb-12 max-w-3xl text-center sm:mb-16">
+                        <div className="section-icon mx-auto mb-5">
+                          {section.emoji}
+                        </div>
+                        <h2 className="mb-4 text-3xl font-bold leading-tight text-slate-950 sm:text-4xl md:text-5xl">
+                          {section.title}
+                        </h2>
+                        <p className="mx-auto max-w-2xl text-lg leading-8 text-slate-600 sm:text-xl">
+                          {section.description}
+                        </p>
                       </div>
-                      <h2 className="mb-4 text-3xl font-bold leading-tight text-slate-950 sm:text-4xl md:text-5xl">
-                        {section.title}
-                      </h2>
-                      <p className="mx-auto max-w-2xl text-lg leading-8 text-slate-600 sm:text-xl">
-                        {section.description}
-                      </p>
+
+                      {/* Adventure cards grid */}
+                      {section.adventures && (
+                        <div className="grid gap-7 md:grid-cols-3 lg:gap-8">
+                          {section.adventures.map((adventure, idx) => (
+                            <AdventureCard key={adventure.id} adventure={adventure} index={idx} />
+                          ))}
+                        </div>
+                      )}
                     </div>
-
-                    {/* Adventure cards grid */}
-                    {section.adventures && (
-                      <div className="grid gap-7 md:grid-cols-3 lg:gap-8">
-                        {section.adventures.map((adventure, idx) => (
-                          <AdventureCard key={adventure.id} adventure={adventure} index={idx} />
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                </section>
+                  </section>
+                  <SeaWaveDivider variant="layered-swell" colorClass="text-[#8b4513]" />
+                </div>
               );
             }
 
-            // Regular story sections
+            // Regular story sections with dynamic bottom wave dividers
+            const isLastSection = index === storyData.sections.length - 1;
+            const dividerVariant = (['layered-wave', 'layered-swell', 'deep-crest', 'tall-swell'][index % 4]) as any;
+            const nextThemeColor = isLastSection ? 'text-[#8b4513]' : (index % 2 === 0 ? 'text-[#061d2b]/20' : 'text-[#0e445c]/25');
+
             return (
               <StorySection
                 key={section.id}
@@ -155,173 +162,183 @@ const Home: React.FC = () => {
                 mood={section.mood || ''}
                 isAlternate={index % 2 === 1}
                 themeName={['shore-section', 'lagoon-section', 'cove-section', 'bay-section'][index % 4]}
+                dividerVariant={dividerVariant}
+                nextThemeColor={nextThemeColor}
               />
             );
           })
         )}
       </div>
 
-      <SeaWaveDivider variant="swell" colorClass="text-[#004e64]" />
-
       {/* Call-to-Action Banner */}
-      {!storyData ? null : storyData.callToActions && storyData.callToActions.length > 0 ? (
-        <section className="home-section sunset-section px-4 py-20 text-white sm:py-24 md:px-8">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="mb-6 text-3xl font-bold leading-tight text-white sm:text-4xl md:text-5xl">
-              {storyData.storyTitle || 'Ready for Your Perfect Day in Paradise?'}
-            </h2>
-            {storyData.storyTagline && (
+      <div className="relative">
+        <SeaWaveDivider variant="deep-crest" colorClass="text-[#8b4513]" flip />
+        {!storyData ? null : storyData.callToActions && storyData.callToActions.length > 0 ? (
+          <section className="home-section sunset-section px-4 py-20 text-white sm:py-24 md:px-8">
+            <div className="max-w-4xl mx-auto text-center">
+              <h2 className="mb-6 text-3xl font-bold leading-tight text-white sm:text-4xl md:text-5xl">
+                {storyData.storyTitle || 'Ready for Your Perfect Day in Paradise?'}
+              </h2>
+              {storyData.storyTagline && (
+                <p className="mx-auto mb-8 max-w-2xl text-lg leading-8 text-white/90 sm:text-xl">
+                  {storyData.storyTagline}
+                </p>
+              )}
+              <div className="flex flex-col justify-center gap-4 sm:flex-row">
+                {storyData.callToActions.map((cta, i) => (
+                  <button
+                    key={`${cta.text}-${i}`}
+                    onMouseEnter={() => playHoverFx()}
+                    onClick={() => {
+                      playClickFx();
+                      if (cta.target?.startsWith('http')) {
+                        window.open(cta.target, '_blank');
+                      } else {
+                        navigate(cta.target || '/');
+                      }
+                    }}
+                    className="tropical-button"
+                  >
+                    {cta.text}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </section>
+        ) : (
+          <section className="home-section sunset-section px-4 py-20 text-white sm:py-24 md:px-8">
+            <div className="max-w-4xl mx-auto text-center">
+              <h2 className="mb-6 text-3xl font-bold leading-tight text-white sm:text-4xl md:text-5xl">
+                Ready for Your Perfect Day in Paradise?
+              </h2>
               <p className="mx-auto mb-8 max-w-2xl text-lg leading-8 text-white/90 sm:text-xl">
-                {storyData.storyTagline}
+                Your adventure is just one click away. Contact us on WhatsApp or choose your adventure below.
               </p>
-            )}
-            <div className="flex flex-col justify-center gap-4 sm:flex-row">
-              {storyData.callToActions.map((cta, i) => (
+              <div className="flex flex-col justify-center gap-4 sm:flex-row">
                 <button
-                  key={`${cta.text}-${i}`}
                   onMouseEnter={() => playHoverFx()}
                   onClick={() => {
                     playClickFx();
-                    if (cta.target?.startsWith('http')) {
-                      window.open(cta.target, '_blank');
-                    } else {
-                      navigate(cta.target || '/');
-                    }
+                    window.open(
+                      generateWhatsAppMessage(
+                        brandSettings.phoneNumber,
+                        'Hola! Me gustaría información sobre sus tours.'
+                      ),
+                      '_blank'
+                    );
                   }}
                   className="tropical-button"
                 >
-                  {cta.text}
+                  Chat on WhatsApp
                 </button>
-              ))}
+                <button
+                  onMouseEnter={() => playHoverFx()}
+                  onClick={() => {
+                    playClickFx();
+                    navigate('/tours');
+                  }}
+                  className="tropical-button-outline text-white border-white hover:bg-white/20"
+                >
+                  View Adventures
+                </button>
+              </div>
             </div>
-          </div>
-        </section>
-      ) : (
-        <section className="home-section sunset-section px-4 py-20 text-white sm:py-24 md:px-8">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="mb-6 text-3xl font-bold leading-tight text-white sm:text-4xl md:text-5xl">
-              Ready for Your Perfect Day in Paradise?
-            </h2>
-            <p className="mx-auto mb-8 max-w-2xl text-lg leading-8 text-white/90 sm:text-xl">
-              Your adventure is just one click away. Contact us on WhatsApp or choose your adventure below.
-            </p>
-            <div className="flex flex-col justify-center gap-4 sm:flex-row">
-              <button
-                onMouseEnter={() => playHoverFx()}
-                onClick={() => {
-                  playClickFx();
-                  window.open(
-                    generateWhatsAppMessage(
-                      brandSettings.phoneNumber,
-                      'Hola! Me gustaría información sobre sus tours.'
-                    ),
-                    '_blank'
-                  );
-                }}
-                className="tropical-button"
-              >
-                Chat on WhatsApp
-              </button>
-              <button
-                onMouseEnter={() => playHoverFx()}
-                onClick={() => {
-                  playClickFx();
-                  navigate('/tours');
-                }}
-                className="tropical-button-outline text-white border-white hover:bg-white/20"
-              >
-                View Adventures
-              </button>
-            </div>
-          </div>
-        </section>
-      )}
-
-      <SeaWaveDivider variant="foam" colorClass="text-[#04131D]/40" />
+          </section>
+        )}
+        <SeaWaveDivider variant="layered-swell" colorClass="text-[#04131D]" />
+      </div>
 
       {/* Testimonials Section */}
-      <TestimonialDisplay locale={locale} />
-
-      <SeaWaveDivider variant="tide" colorClass="text-[#004e64]" />
+      <div className="relative">
+        <SeaWaveDivider variant="tide" colorClass="text-[#04131D]/40" flip />
+        <TestimonialDisplay locale={locale} />
+        <SeaWaveDivider variant="foam" colorClass="text-[#004e64]" />
+      </div>
 
       {/* Why Choose Us Section - Enhanced */}
-      <section className="home-section reef-section px-4 py-20 text-white sm:py-24 md:px-8">
-        <div className="max-w-6xl mx-auto">
-          <div className="mx-auto mb-12 max-w-3xl text-center sm:mb-16">
-            <h2 className="mb-4 text-3xl font-bold leading-tight text-white sm:text-4xl md:text-5xl">
-              <FormattedMessage id="features.title" />
-            </h2>
-            <p className="text-lg leading-8 text-white/[.78] sm:text-xl">Thoughtful service from arrival to return</p>
+      <div className="relative">
+        <SeaWaveDivider variant="tall-swell" colorClass="text-[#004e64]" flip />
+        <section className="home-section reef-section px-4 py-20 text-white sm:py-24 md:px-8">
+          <div className="max-w-6xl mx-auto">
+            <div className="mx-auto mb-12 max-w-3xl text-center sm:mb-16">
+              <h2 className="mb-4 text-3xl font-bold leading-tight text-white sm:text-4xl md:text-5xl">
+                <FormattedMessage id="features.title" />
+              </h2>
+              <p className="text-lg leading-8 text-white/[.78] sm:text-xl">Thoughtful service from arrival to return</p>
+            </div>
+
+            <div className="grid gap-6 md:grid-cols-3 lg:gap-8">
+              {/* Safety First */}
+              <div onMouseEnter={() => playHoverFx()} className="home-feature-card group p-8 animate-wave-sway-1">
+                <div className="text-5xl mb-4">🛡️</div>
+                <h3 className="text-2xl font-bold mb-3">
+                  <FormattedMessage id="features.safety.title" />
+                </h3>
+                <p className="text-slate-300">
+                  <FormattedMessage id="features.safety.description" />
+                </p>
+              </div>
+
+              {/* Curated Experiences */}
+              <div onMouseEnter={() => playHoverFx()} className="home-feature-card group p-8 animate-wave-sway-2">
+                <div className="text-5xl mb-4">🌿</div>
+                <h3 className="text-2xl font-bold mb-3">
+                  <FormattedMessage id="features.experiences.title" />
+                </h3>
+                <p className="text-slate-300">
+                  <FormattedMessage id="features.experiences.description" />
+                </p>
+              </div>
+
+              {/* Transportation */}
+              <div onMouseEnter={() => playHoverFx()} className="home-feature-card group p-8 animate-wave-sway-3">
+                <div className="text-5xl mb-4">🚗</div>
+                <h3 className="text-2xl font-bold mb-3">
+                  <FormattedMessage id="features.transportation.title" />
+                </h3>
+                <p className="text-slate-300">
+                  <FormattedMessage id="features.transportation.description" />
+                </p>
+              </div>
+            </div>
           </div>
-
-          <div className="grid gap-6 md:grid-cols-3 lg:gap-8">
-            {/* Safety First */}
-            <div onMouseEnter={() => playHoverFx()} className="home-feature-card group p-8 animate-wave-sway-1">
-              <div className="text-5xl mb-4">🛡️</div>
-              <h3 className="text-2xl font-bold mb-3">
-                <FormattedMessage id="features.safety.title" />
-              </h3>
-              <p className="text-slate-300">
-                <FormattedMessage id="features.safety.description" />
-              </p>
-            </div>
-
-            {/* Curated Experiences */}
-            <div onMouseEnter={() => playHoverFx()} className="home-feature-card group p-8 animate-wave-sway-2">
-              <div className="text-5xl mb-4">🌿</div>
-              <h3 className="text-2xl font-bold mb-3">
-                <FormattedMessage id="features.experiences.title" />
-              </h3>
-              <p className="text-slate-300">
-                <FormattedMessage id="features.experiences.description" />
-              </p>
-            </div>
-
-            {/* Transportation */}
-            <div onMouseEnter={() => playHoverFx()} className="home-feature-card group p-8 animate-wave-sway-3">
-              <div className="text-5xl mb-4">🚗</div>
-              <h3 className="text-2xl font-bold mb-3">
-                <FormattedMessage id="features.transportation.title" />
-              </h3>
-              <p className="text-slate-300">
-                <FormattedMessage id="features.transportation.description" />
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <SeaWaveDivider variant="deep-crest" colorClass="text-[#04131D]" />
+        </section>
+        <SeaWaveDivider variant="deep-crest" colorClass="text-[#fff8f0]/40" />
+      </div>
 
       {/* Final CTA Section */}
-      <section className="home-section dawn-section relative overflow-hidden px-4 py-20 sm:py-24 md:px-8">
-        <div className="parallax-wash parallax-wash-right" />
+      <div className="relative">
+        <SeaWaveDivider variant="layered-wave" colorClass="text-[#fff8f0]/60" flip />
+        <section className="home-section dawn-section relative overflow-hidden px-4 py-20 sm:py-24 md:px-8">
+          <div className="parallax-wash parallax-wash-right" />
 
-        <div className="relative z-10 max-w-4xl mx-auto text-center">
-          <h2 className="mb-6 text-3xl font-bold leading-tight text-slate-900 sm:text-4xl md:text-5xl">
-            Your Caribbean Day Awaits
-          </h2>
-          <p className="mx-auto mb-8 max-w-2xl text-lg leading-8 text-slate-700 sm:text-xl">
-            Step into warm water, fresh air, local flavor, and a day that stays with you.
-          </p>
-          <button
-            onMouseEnter={() => playHoverFx()}
-            onClick={() => {
-              playClickFx();
-              window.open(
-                generateWhatsAppMessage(
-                  brandSettings.phoneNumber,
-                  'Hola! Quiero hacer una reserva. ¿Cuáles son mis opciones?'
-                ),
-                '_blank'
-              );
-            }}
-            className="tropical-button"
-          >
-            Book Your Adventure Now
-          </button>
-        </div>
-      </section>
+          <div className="relative z-10 max-w-4xl mx-auto text-center">
+            <h2 className="mb-6 text-3xl font-bold leading-tight text-slate-900 sm:text-4xl md:text-5xl">
+              Your Caribbean Day Awaits
+            </h2>
+            <p className="mx-auto mb-8 max-w-2xl text-lg leading-8 text-slate-700 sm:text-xl">
+              Step into warm water, fresh air, local flavor, and a day that stays with you.
+            </p>
+            <button
+              onMouseEnter={() => playHoverFx()}
+              onClick={() => {
+                playClickFx();
+                window.open(
+                  generateWhatsAppMessage(
+                    brandSettings.phoneNumber,
+                    'Hola! Quiero hacer una reserva. ¿Cuáles son mis opciones?'
+                  ),
+                  '_blank'
+                );
+              }}
+              className="tropical-button"
+            >
+              Book Your Adventure Now
+            </button>
+          </div>
+        </section>
+        <SeaWaveDivider variant="deep-crest" colorClass="text-[#04131D]" />
+      </div>
 
       {/* Social Media Videos Section */}
       <SocialMediaVideos />
